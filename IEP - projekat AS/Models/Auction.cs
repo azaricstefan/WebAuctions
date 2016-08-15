@@ -17,15 +17,12 @@ namespace IEP___projekat_AS.Models
         public int Id { get; set; }
 
         [Required]
-        [StringLength(128)]
-        public string user_Id { get; set; }
-
-        [Required]
         [StringLength(100)]
         public string name { get; set; }
 
         public int length { get; set; }
 
+        // Current price of the item
         public decimal price { get; set; }
 
         public DateTime creation { get; set; }
@@ -44,11 +41,18 @@ namespace IEP___projekat_AS.Models
 
         [Required]
         [StringLength(50)]
+        //D-DRAFT, R-READY, O-OPEN, S-SOLD, E-EXPIRED
         public string status { get; set; }
 
         public int start_offer { get; set; }
 
+        [StringLength(128)]
+        public string winner_Id { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Offer> Offers { get; set; }
+
+        [ForeignKey("winner_Id")]
+        public ApplicationUser Winner { get; set; }
     }
 }

@@ -74,7 +74,7 @@ namespace IEP___projekat_AS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public ActionResult Create([Bind(Include = "Id,user_Id,name,length,price,creation,opening,closing,details,img,status,start_offer")] Auction auction)
+        public ActionResult Create([Bind(Include = "Id,winner_Id,name,length,price,creation,opening,closing,details,img,status,start_offer")] Auction auction)
         {
             if (ModelState.IsValid)
             {
@@ -106,7 +106,7 @@ namespace IEP___projekat_AS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,user_Id,name,length,price,creation,opening,closing,details,img,status,start_offer")] Auction auction)
+        public ActionResult Edit([Bind(Include = "Id,winner_Id,name,length,price,creation,opening,closing,details,img,status,start_offer")] Auction auction)
         {
             if (ModelState.IsValid)
             {

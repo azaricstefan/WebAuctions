@@ -21,7 +21,7 @@ namespace IEP___projekat_AS.Migrations
                     new Auction
                     {
                         Id = 1,
-                        user_Id = "c88b938f-2b57-4492-8d5f-849464eb6f19",
+                        //winner_Id = "a44730fd-210c-4884-84d4-bed6dbe6d311",
                         name = "Aukcija 1",
                         length = 10000,
                         price = 100,
@@ -38,7 +38,7 @@ namespace IEP___projekat_AS.Migrations
                     new Auction
                     {
                         Id = 2,
-                        user_Id = "c88b938f-2b57-4492-8d5f-849464eb6f19",
+                        //winner_Id = "a44730fd-210c-4884-84d4-bed6dbe6d311",
                         name = "Aukcija 2",
                         length = 10000,
                         price = 200,
@@ -55,7 +55,7 @@ namespace IEP___projekat_AS.Migrations
                     new Auction
                     {
                         Id = 3,
-                        user_Id = "c88b938f-2b57-4492-8d5f-849464eb6f19",
+                        //winner_Id = "a44730fd-210c-4884-84d4-bed6dbe6d311",
                         name = "Aukcija 3",
                         length = 10000,
                         price = 300,
@@ -72,7 +72,7 @@ namespace IEP___projekat_AS.Migrations
                     new Auction
                     {
                         Id = 4,
-                        user_Id = "c88b938f-2b57-4492-8d5f-849464eb6f19",
+                        //winner_Id = "a44730fd-210c-4884-84d4-bed6dbe6d311",
                         name = "Aukcija 4",
                         length = 10000,
                         price = 400,
@@ -89,7 +89,7 @@ namespace IEP___projekat_AS.Migrations
                     new Auction
                     {
                         Id = 5,
-                        user_Id = "c88b938f-2b57-4492-8d5f-849464eb6f19",
+                        //winner_Id = "a44730fd-210c-4884-84d4-bed6dbe6d311",
                         name = "Aukcija 5",
                         length = 10000,
                         price = 500,
