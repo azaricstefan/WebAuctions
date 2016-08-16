@@ -39,6 +39,8 @@
       <Objects>
       </Objects>
     </PublishDatabaseSettings>
+    <IncludeIisSettings>false</IncludeIisSettings>
+    <FilesToIncludeForPublish>AllFilesInTheProject</FilesToIncludeForPublish>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -356,7 +358,6 @@
     <Content Include="Views\Auctions\Details.cshtml" />
     <Content Include="Views\Auctions\Edit.cshtml" />
     <Content Include="Views\Auctions\Index.cshtml" />
-    <Content Include="Views\Auctions\NewIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

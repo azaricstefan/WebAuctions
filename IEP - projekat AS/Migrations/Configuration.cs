@@ -20,7 +20,7 @@ namespace IEP___projekat_AS.Migrations
             context.Auctions.AddOrUpdate(
                     new Auction
                     {
-                        Id = 1,
+                        //Id = 1,
                         //winner_Id = "a44730fd-210c-4884-84d4-bed6dbe6d311",
                         name = "Aukcija 1",
                         length = 10000,
@@ -37,7 +37,7 @@ namespace IEP___projekat_AS.Migrations
             context.Auctions.AddOrUpdate(
                     new Auction
                     {
-                        Id = 2,
+                        //Id = 2,
                         //winner_Id = "a44730fd-210c-4884-84d4-bed6dbe6d311",
                         name = "Aukcija 2",
                         length = 10000,
@@ -54,7 +54,7 @@ namespace IEP___projekat_AS.Migrations
             context.Auctions.AddOrUpdate(
                     new Auction
                     {
-                        Id = 3,
+                        //Id = 3,
                         //winner_Id = "a44730fd-210c-4884-84d4-bed6dbe6d311",
                         name = "Aukcija 3",
                         length = 10000,
@@ -71,7 +71,7 @@ namespace IEP___projekat_AS.Migrations
             context.Auctions.AddOrUpdate(
                     new Auction
                     {
-                        Id = 4,
+                        //Id = 4,
                         //winner_Id = "a44730fd-210c-4884-84d4-bed6dbe6d311",
                         name = "Aukcija 4",
                         length = 10000,
@@ -88,7 +88,7 @@ namespace IEP___projekat_AS.Migrations
             context.Auctions.AddOrUpdate(
                     new Auction
                     {
-                        Id = 5,
+                        //Id = 5,
                         //winner_Id = "a44730fd-210c-4884-84d4-bed6dbe6d311",
                         name = "Aukcija 5",
                         length = 10000,

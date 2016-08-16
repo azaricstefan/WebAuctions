@@ -14,14 +14,21 @@ namespace IEP___projekat_AS.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // POST: Auctions NEW -> SEARCH!
+
+        //// GET: Auctions NEW!
+        //public ActionResult NewIndex()
+        //{
+        //    return View(db.Auctions.ToList());
+        //}
+        
+        // POST: Auctions -> SEARCH!
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult NewIndex([Bind(Include = "name")] Auction auction)
+        public ActionResult Index([Bind(Include = "name")] Auction auction)
         {
-            var name = auction.name;
-            var query = db.Auctions.Where(s => s.name == name);
-            var a = query.ToList();//.FirstOrDefault<Auction>();
+            var name  = auction.name;
+            var query = db.Auctions.Where(s => s.name == name); //search for auctions with that name
+            var a     = query.ToList();//.FirstOrDefault<Auction>();
 
 
             if (a == null)
@@ -31,12 +38,6 @@ namespace IEP___projekat_AS.Controllers
             return View(a);
 
             //return View(db.Auctions.ToList());
-        }
-
-        // GET: Auctions NEW!
-        public ActionResult NewIndex()
-        {
-            return View(db.Auctions.ToList());
         }
 
         // GET: Auctions
