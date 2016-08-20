@@ -30,7 +30,7 @@ namespace IEP___projekat_AS.Migrations
                         closing = DateTime.Now,
                         details = "Detalji o aukciji",
                         img = "http://drop.ndtv.com/TECH/product_database/images/12292014103136AM_635_samsung_galaxy_note_4_slte.jpeg",
-                        status = "PRODAJA",
+                        status = "READY",
                         start_offer = 100
                     }
                 );
@@ -47,7 +47,7 @@ namespace IEP___projekat_AS.Migrations
                         closing = DateTime.Now,
                         details = "Detalji o aukciji",
                         img = "http://drop.ndtv.com/TECH/product_database/images/12292014103136AM_635_samsung_galaxy_note_4_slte.jpeg",
-                        status = "PRODAJA",
+                        status = "OPEN",
                         start_offer = 200
                     }
                 );
@@ -64,7 +64,7 @@ namespace IEP___projekat_AS.Migrations
                         closing = DateTime.Now,
                         details = "Detalji o aukciji",
                         img = "http://drop.ndtv.com/TECH/product_database/images/12292014103136AM_635_samsung_galaxy_note_4_slte.jpeg",
-                        status = "PRODAJA",
+                        status = "DRAFT",
                         start_offer = 300
                     }
                 );
@@ -81,7 +81,7 @@ namespace IEP___projekat_AS.Migrations
                         closing = DateTime.Now,
                         details = "Detalji o aukciji",
                         img = "http://drop.ndtv.com/TECH/product_database/images/12292014103136AM_635_samsung_galaxy_note_4_slte.jpeg",
-                        status = "PRODAJA",
+                        status = "SOLD",
                         start_offer = 400
                     }
                 );
@@ -98,7 +98,7 @@ namespace IEP___projekat_AS.Migrations
                         closing = DateTime.Now,
                         details = "Detalji o aukciji",
                         img = "http://drop.ndtv.com/TECH/product_database/images/12292014103136AM_635_samsung_galaxy_note_4_slte.jpeg",
-                        status = "PRODAJA",
+                        status = "EXPIRED",
                         start_offer = 500
                     }
                 );

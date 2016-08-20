@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using IEP___projekat_AS.Models;
+using PagedList;
 
 namespace IEP___projekat_AS.Controllers
 {
@@ -24,26 +25,94 @@ namespace IEP___projekat_AS.Controllers
         // POST: Auctions -> SEARCH!
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index([Bind(Include = "name")] Auction auction)
+        public ActionResult Index([Bind(Include = "name,typeOfSearch,minPrice,maxPrice,status")] SearchAuctionViewModel sa)
         {
-            var name  = auction.name;
-            var query = db.Auctions.Where(s => s.name == name); //search for auctions with that name
-            var a     = query.ToList();//.FirstOrDefault<Auction>();
+            //search parameters
+            var name         = sa.name;
+            var minPrice     = sa.minPrice;
+            var maxPrice     = sa.maxPrice;
+            var status       = sa.status;
+            var typeOfSearch = sa.typeOfSearch;
+
+            var query = db.Auctions.Where(s => s.name.Contains(name)); //search for auctions with that name
+            var aList     = query.ToList();//.FirstOrDefault<Auction>();
 
 
-            if (a == null)
+            if (aList == null)
             {
                 return HttpNotFound();
             }
-            return View(a);
+
+            var savcm = new SearchAuctionViewContainerModel();
+            savcm.searchAuctionViewModel = new SearchAuctionViewModel();
+            savcm.auctionList = aList.ToPagedList(1,3);
+            return View(savcm);
 
             //return View(db.Auctions.ToList());
         }
 
         // GET: Auctions
-        public ActionResult Index()
+        public ActionResult Index([Bind(Include = "name,typeOfSearch,minPrice,maxPrice,status")] SearchAuctionViewModel sa,
+            string currentFilter, int? page, string sortOrder, string searchString)
         {
-            return View(db.Auctions.ToList());
+            var savcm = new SearchAuctionViewContainerModel(); //na pocetku kreiram dole postavljam
+            savcm.searchAuctionViewModel = new SearchAuctionViewModel();
+
+            int pageSize = 5; //elemenata po strani
+            int pageNumber = (page ?? 1); //trenutna strana
+
+            //search parameters
+            var name = sa.name;
+            var minPrice = sa.minPrice;
+            var maxPrice = sa.maxPrice;
+            var status = sa.status;
+            var typeOfSearch = sa.typeOfSearch;
+
+            //SVE AUCKIJE
+            savcm.auctionList = db.Auctions.OrderBy(a => a.Id).ToPagedList(pageNumber, pageSize);
+
+            if (String.IsNullOrEmpty(name) && String.IsNullOrEmpty(status) && String.IsNullOrEmpty(typeOfSearch)
+                && minPrice == Decimal.Zero && maxPrice == Decimal.Zero)
+            {
+                //NEMA PARAMETARA POSALJI SVE POSTOJECE AUKCIJE
+                //postavi auctionList
+                savcm.auctionList = db.Auctions.OrderBy(a => a.Id).ToPagedList(pageNumber, pageSize);
+            }
+            else
+            {
+                //Filter name
+                if (!String.IsNullOrEmpty(name))
+                    savcm.auctionList = savcm.auctionList.Where(a => a.name.Contains(name))
+                        .OrderBy(a => a.Id)
+                        .ToPagedList(pageNumber, pageSize);
+                //Filter minimal price
+                if (minPrice != Decimal.Zero)
+                    savcm.auctionList = savcm.auctionList.Where(a => a.price >= minPrice)
+                        .OrderBy(a => a.Id)
+                        .ToPagedList(pageNumber, pageSize);
+                //Filter maximal price
+                if (maxPrice != Decimal.Zero)
+                    savcm.auctionList = savcm.auctionList.Where(a => a.price <= maxPrice)
+                        .OrderBy(a => a.Id)
+                        .ToPagedList(pageNumber, pageSize);
+                //Filter status of auction
+                if (!String.IsNullOrEmpty(status))
+                    savcm.auctionList = savcm.auctionList.Where(a => a.status.Equals(status))
+                        .OrderBy(a => a.Id)
+                        .ToPagedList(pageNumber, pageSize);
+
+            }
+
+            //savcm.auctionList = db.Auctions.
+            //    Where(a => a.name.Contains("Aukcija") && a.price < 1000).
+            //    OrderBy(a => a.Id).
+            //    ToPagedList(pageNumber,pageSize);
+
+            //*********************************** SETTING UP*******************
+            //ViewBag.CurrentSort = sortOrder;
+
+            return View(savcm);
+            //return View(db.Auctions.ToList()); //OLD
         }
 
         // GET: Auctions/Details/5

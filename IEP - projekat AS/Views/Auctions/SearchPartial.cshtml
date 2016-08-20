@@ -1,0 +1,57 @@
+﻿@using IEP___projekat_AS.Models
+@model SearchAuctionViewModel
+
+
+<h3>Search for AUCTIONS</h3>
+<div class="row">
+    @using (Html.BeginForm("Index", "Auctions", FormMethod.Get))
+    {
+        @*@Html.AntiForgeryToken()*@
+
+        <div class="col-md-2 form-group">
+            @Html.LabelFor(m => m.name, "Type the keywords:")
+            @Html.TextBoxFor(m => m.name, new { @class = "form-control", @placeholder = "Type some keywords..."})
+            @*<input class="form-control" id="name" name="name" placeholder="Type some keywords..." type="text" value="">*@
+        </div>
+
+        <div class="col-md-2 form-group">
+            @Html.LabelFor(m => m.minPrice, "Min Price") @Html.TextBoxFor(m => m.minPrice, new { @class = "form-control" })
+        </div>
+
+        <div class="col-md-2 form-group">
+            @Html.LabelFor(m => m.maxPrice, "Max Price") @Html.TextBoxFor(m => m.maxPrice, new { @class = "form-control" })
+        </div>
+
+        <div class="col-md-2 form-group">
+            @Html.LabelFor(m => m.typeOfSearch, "Type of search")
+            @Html.DropDownListFor(m => m.typeOfSearch,
+                new List<SelectListItem>
+                {
+                    new SelectListItem { Text="Exact All", Value="EA" },
+                    new SelectListItem { Text="Exact Keywords", Value="EK" },
+                    new SelectListItem { Text="Partial All", Value="PA" },
+                    new SelectListItem { Text="Partial Keywords", Value="PK" },
+
+                }, "Exact All", new { @class = "form-control input-md" })
+        </div>
+
+        <div class="col-md-2 form-group">
+            @Html.LabelFor(m => m.status, "Status")
+            @Html.DropDownListFor(m => m.status,
+                new List<SelectListItem>
+                {
+                    new SelectListItem { Text ="Draft", Value="DRAFT" },
+                    new SelectListItem { Text ="Ready", Value="READY" },
+                    new SelectListItem { Text ="Open", Value="OPEN" },
+                    new SelectListItem { Text ="Sold", Value="SOLD" },
+                    new SelectListItem { Text ="Expired", Value="EXPIRED" },
+
+                }, "All", new { @class = "form-control input-md" })
+        </div>
+
+        <div class="col-md-2 form-group">
+            <br />
+            <input type="submit" value="Search" class="btn btn-default" />
+        </div>
+    }
+</div>
