@@ -1,16 +1,12 @@
 ﻿@using IEP___projekat_AS.Models
 @model SearchAuctionViewModel
 
-
-<h3>Search for AUCTIONS</h3>
 <div class="row">
     @using (Html.BeginForm("Index", "Auctions", FormMethod.Get))
     {
-        @*@Html.AntiForgeryToken()*@
-
         <div class="col-md-2 form-group">
             @Html.LabelFor(m => m.name, "Type the keywords:")
-            @Html.TextBoxFor(m => m.name, new { @class = "form-control", @placeholder = "Type some keywords..."})
+            @Html.TextBoxFor(m => m.name, new { @class = "form-control", @placeholder = "Type some keywords..." })
             @*<input class="form-control" id="name" name="name" placeholder="Type some keywords..." type="text" value="">*@
         </div>
 

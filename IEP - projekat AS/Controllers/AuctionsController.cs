@@ -76,15 +76,30 @@ namespace IEP___projekat_AS.Controllers
             {
                 //NEMA PARAMETARA POSALJI SVE POSTOJECE AUKCIJE
                 //postavi auctionList
-                savcm.auctionList = db.Auctions.OrderBy(a => a.Id).ToPagedList(pageNumber, pageSize);
+                //savcm.auctionList = db.Auctions.OrderBy(a => a.Id).ToPagedList(pageNumber, pageSize);
+                String a = "ndas";
             }
             else
             {
                 //Filter name
-                if (!String.IsNullOrEmpty(name))
-                    savcm.auctionList = savcm.auctionList.Where(a => a.name.Contains(name))
-                        .OrderBy(a => a.Id)
-                        .ToPagedList(pageNumber, pageSize);
+                //if (!String.IsNullOrEmpty(name))
+                //    savcm.auctionList = savcm.auctionList.Where(a => a.name.Contains(name))
+                //        .OrderBy(a => a.Id)
+                //        .ToPagedList(pageNumber, pageSize);
+
+                //*********NAME SEARCH*********************************
+                string[] keywords = name.Split(null);
+                var predicate = PredicateBuilder.False<Auction>();
+
+                foreach (string keyword in keywords)
+                {
+                    string temp = keyword;
+                    predicate = predicate.Or(a => a.name.Contains(temp));
+                }
+                savcm.auctionList = db.Auctions.Where(predicate)
+                    .OrderBy(a => a.Id)
+                    .ToPagedList(pageNumber, pageSize);
+                //*******************************PREDICATE TEST
                 //Filter minimal price
                 if (minPrice != Decimal.Zero)
                     savcm.auctionList = savcm.auctionList.Where(a => a.price >= minPrice)
@@ -100,6 +115,8 @@ namespace IEP___projekat_AS.Controllers
                     savcm.auctionList = savcm.auctionList.Where(a => a.status.Equals(status))
                         .OrderBy(a => a.Id)
                         .ToPagedList(pageNumber, pageSize);
+
+
 
             }
 
