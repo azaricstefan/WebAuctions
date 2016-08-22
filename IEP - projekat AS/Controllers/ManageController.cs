@@ -51,18 +51,50 @@ namespace IEP___projekat_AS.Controllers
             return View(orders);
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult BuyTokens([Bind(Include = "par1,par2")] SearchAuctionViewModel sa)
-        //{
-        //    //SYNC WITH CENTILI;; TODO
-        //    return View();
-        //}
-
-        public ActionResult BuyTokens()/*String packageType, String phoneNumber)*/
+        public ActionResult BuyTokens(String packageType, String phoneNumber)/*(string api, string clientId)*/
         {
-            return View();
+            var userId = User.Identity.GetUserId();
+            var user = db.Users.Find(userId);
+
+            if(String.IsNullOrEmpty(packageType))
+            {
+                return View(user);
+            }
+            var value = Decimal.Parse(packageType);
+
+            user.Credit += value;
+            db.SaveChanges();
+            //SYNC WITH CENTILI;; TODO
+            var orders = db.Orders.Where(o => o.user_Id == userId).ToList();
+            Order order = new Order();
+            order.date = DateTime.Now;
+            order.number_of_tokens = (int)value;
+            switch ((int)value)
+            {
+                case 1:
+                    order.package = "STANDARD";
+                    break;
+                case 5:
+                    order.package = "GOLD";
+                    break;
+                case 10:
+                    order.package = "PLATINUM";
+                    break;
+            }
+            order.status = "WAITING";
+            order.user_Id = userId;
+            db.Orders.Add(order);
+            db.SaveChanges();
+            return View("AllTokenOrders", orders);
         }
+
+        //public ActionResult BuyTokens()/*String packageType, String phoneNumber)*/
+        //{
+        //    var userId = User.Identity.GetUserId();
+        //    var user   = db.Users.Find(userId);
+
+        //    return View(user);
+        //}
 
         public ManageController()
         {

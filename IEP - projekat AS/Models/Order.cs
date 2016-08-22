@@ -8,7 +8,7 @@ namespace IEP___projekat_AS.Models
 
     public partial class Order
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] //POTREBNO DA BI SQL MANAGEMENT STUDIO GENERISAO ID...
         public int Id { get; set; }
 
         [Required]
@@ -19,6 +19,9 @@ namespace IEP___projekat_AS.Models
 
         public decimal price { get; set; }
 
+        /// <summary>
+        /// WAITING, CANCELED, REALIZED
+        /// </summary>
         [Required]
         [StringLength(50)]
         public string status { get; set; }
