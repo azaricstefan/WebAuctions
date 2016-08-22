@@ -211,7 +211,7 @@ namespace IEP___projekat_AS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "Id,name,length,price,creation,opening,closing,details,img,status")] Auction auction)
         {
             if (ModelState.IsValid)
@@ -227,7 +227,7 @@ namespace IEP___projekat_AS.Controllers
         }
 
         // GET: Auctions/Edit/5
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -252,7 +252,7 @@ namespace IEP___projekat_AS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "Id,winner_Id,name,length,price,creation,opening,closing,details,img,status,start_offer")] Auction auction)
         {
             if (ModelState.IsValid && auction.status.Equals("READY"))
@@ -265,6 +265,7 @@ namespace IEP___projekat_AS.Controllers
         }
 
         // GET: Auctions/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -282,10 +283,12 @@ namespace IEP___projekat_AS.Controllers
         // POST: Auctions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Auction auction = db.Auctions.Find(id);
-            db.Auctions.Remove(auction);
+            auction.status = "DELETED"; //samo postavljanje fleg-a, ne radi se brisanje
+            //db.Auctions.Remove(auction);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
