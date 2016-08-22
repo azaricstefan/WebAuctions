@@ -373,6 +373,7 @@
     <Content Include="Views\Manage\BuyTokens.cshtml" />
     <Content Include="Views\Shared\_LayoutCentili.cshtml" />
     <Content Include="Views\Manage\AllTokenOrders.cshtml" />
+    <Content Include="Views\Manage\ChangeDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
