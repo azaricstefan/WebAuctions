@@ -56,6 +56,14 @@ namespace IEP___projekat_AS.Models
         public string ConfirmPassword { get; set; }
     }
 
+    public class ChangeDetailsViewModel
+    {
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string Email { get; set; }
+        public string Username { get; set; }
+    }
+
     public class ChangePasswordViewModel
     {
         [Required]

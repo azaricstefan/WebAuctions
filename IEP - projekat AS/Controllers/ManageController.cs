@@ -16,6 +16,27 @@ namespace IEP___projekat_AS.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+
+        public ActionResult AllTokenOrders()
+        {
+            //prikazi sve ordere token-a
+            //TODO
+            return View();
+        }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult BuyTokens([Bind(Include = "par1,par2")] SearchAuctionViewModel sa)
+        //{
+        //    //SYNC WITH CENTILI;; TODO
+        //    return View();
+        //}
+
+        public ActionResult BuyTokens()/*String packageType, String phoneNumber)*/
+        {
+            return View();
+        }
+
         public ManageController()
         {
         }
@@ -103,6 +124,39 @@ namespace IEP___projekat_AS.Controllers
                 message = ManageMessageId.Error;
             }
             return RedirectToAction("ManageLogins", new { Message = message });
+        }
+
+        //
+        // GET: /Manage/ChangeDetails
+        public ActionResult ChangeDetails()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Manage/ChangeDetails
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangeDetails(ChangeDetailsViewModel model)
+        {
+            return View();
+            //CODE FOR CHANGE PASSWORD
+            //if (!ModelState.IsValid)
+            //{
+            //    return View(model);
+            //}
+            //var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+            //if (result.Succeeded)
+            //{
+            //    var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            //    if (user != null)
+            //    {
+            //        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+            //    }
+            //    return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
+            //}
+            //AddErrors(result);
+            //return View(model);
         }
 
         //

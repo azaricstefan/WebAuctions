@@ -81,24 +81,60 @@ namespace IEP___projekat_AS.Controllers
             }
             else
             {
-                //Filter name
-                //if (!String.IsNullOrEmpty(name))
-                //    savcm.auctionList = savcm.auctionList.Where(a => a.name.Contains(name))
-                //        .OrderBy(a => a.Id)
-                //        .ToPagedList(pageNumber, pageSize);
-
-                //*********NAME SEARCH*********************************
-                string[] keywords = name.Split(null);
-                var predicate = PredicateBuilder.False<Auction>();
-
-                foreach (string keyword in keywords)
+                //EXACT ALL po default-u kada nema typeOfSearch
+                if (String.IsNullOrEmpty(typeOfSearch))
                 {
-                    string temp = keyword;
-                    predicate = predicate.Or(a => a.name.Contains(temp));
+                    //EXACT ALL
+                    savcm.auctionList = savcm.auctionList.Where(a => a.name.Equals(name))
+                        .OrderBy(a => a.Id)
+                        .ToPagedList(pageNumber, pageSize);
                 }
-                savcm.auctionList = db.Auctions.Where(predicate)
-                    .OrderBy(a => a.Id)
-                    .ToPagedList(pageNumber, pageSize);
+                else
+                {
+                    string[] keywords = name.Split(null); //pripremi kljucne reci
+                    var predicate = PredicateBuilder.False<Auction>();
+
+                    switch (typeOfSearch)
+                    {
+                        case "EK": //Exact Keywords
+                            foreach (string keyword in keywords)
+                            {
+                                string temp = keyword;
+                                predicate = predicate.Or(a => a.name.Equals(temp));
+                            }
+                            break;
+                        case "PA": //Partial All
+                            foreach (string keyword in keywords)
+                            {
+                                string temp = keyword;
+                                predicate = predicate.Or(a => a.name.Contains(temp));
+                            }
+                            break;
+                        case "PK": //Partial Keywords
+                            foreach (string keyword in keywords)
+                            {
+                                string temp = keyword;
+                                predicate = predicate.Or(a => a.name.Contains(temp));
+                            }
+                            break;
+                    }
+                    //isto za sva 3 slucaja
+                    savcm.auctionList = db.Auctions.Where(predicate)
+                        .OrderBy(a => a.Id)
+                        .ToPagedList(pageNumber, pageSize);
+                }
+                //*********NAME SEARCH*********************************
+                //string[] keywords = name.Split(null);
+                //var predicate = PredicateBuilder.False<Auction>();
+
+                //foreach (string keyword in keywords)
+                //{
+                //    string temp = keyword;
+                //    predicate = predicate.Or(a => a.name.Contains(temp));
+                //}
+                //savcm.auctionList = db.Auctions.Where(predicate)
+                //    .OrderBy(a => a.Id)
+                //    .ToPagedList(pageNumber, pageSize);
                 //*******************************PREDICATE TEST
                 //Filter minimal price
                 if (minPrice != Decimal.Zero)
@@ -131,6 +167,13 @@ namespace IEP___projekat_AS.Controllers
             return View(savcm);
             //return View(db.Auctions.ToList()); //OLD
         }
+
+        public ActionResult GetCentiliDetails()
+        {
+            //TODO!
+            return View();
+        }
+
 
         // GET: Auctions/Details/5
         public ActionResult Details(int? id)

@@ -1,0 +1,51 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutCentili.cshtml";
+    ViewBag.Title = "Buy Tokens";
+}
+
+<br />
+<h3>Buy tokens via Mobile</h3>
+<h5>Create your order. Then wait to be redirected on payment platform to finish order.</h5>
+
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+
+        @using (Html.BeginForm())
+        {
+            <div class="form-group">
+                @Html.Label("Package:")
+                @Html.DropDownList("packageType",
+                 new List<SelectListItem>
+                 {
+                    new SelectListItem { Text="Standard (1 token)", Value="Standard" },
+                    new SelectListItem { Text="Gold (5 tokens)", Value="Gold" },
+                    new SelectListItem { Text="Platinum (10 tokens)", Value="Platinum" },
+
+                 }, null, new { @class = "form-control input-md" })
+            </div>
+            <div class="form-group">
+                @Html.Label("PhoneNumber(06x xxxx xxx):")
+                @Html.TextBox("phoneNumber", null, new
+           {
+               @class = "form-control",
+               @dataval = "true",
+               @data_val_regex = "Phone number must be in this format: 06XXXXXXX or 06XXXXXXXX.",
+               @data_val_regex_pattern = "^06[0-9]{7,8}$",
+               @data_val_required = "Phone Number field is required."
+           })
+            </div>
+
+            <div class="form-group">
+                <input type="submit" class="btn btn-default" />
+            </div>
+        }
+        <br />
+        <a id="c-mobile-payment-widget"
+           href="http://stage.centili.com/widget/WidgetModule?api=870d5e86ef71dfa2c2570699f9fbf172">
+            <img src="https://www.centili.com/images/centili-widget-button.png" style="cursor: not-allowed" />
+        </a>
+    </div>
+
+    <div class="col-md-3"></div>
+</div>

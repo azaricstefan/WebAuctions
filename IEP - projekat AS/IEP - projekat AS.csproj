@@ -370,6 +370,9 @@
     <Content Include="Views\Auctions\Index.cshtml" />
     <Content Include="Views\Auctions\SearchPartial.cshtml" />
     <Content Include="Views\Auctions\AuctionListDisplayPartial.cshtml" />
+    <Content Include="Views\Manage\BuyTokens.cshtml" />
+    <Content Include="Views\Shared\_LayoutCentili.cshtml" />
+    <Content Include="Views\Manage\AllTokenOrders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
