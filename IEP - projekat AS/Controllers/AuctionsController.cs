@@ -211,7 +211,7 @@ namespace IEP___projekat_AS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "Id,name,length,price,creation,opening,closing,details,img,status")] Auction auction)
         {
             if (ModelState.IsValid)
@@ -227,6 +227,7 @@ namespace IEP___projekat_AS.Controllers
         }
 
         // GET: Auctions/Edit/5
+        //[Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -234,11 +235,16 @@ namespace IEP___projekat_AS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Auction auction = db.Auctions.Find(id);
-            if (auction == null)
+            if (auction.status.Equals("READY"))
             {
-                return HttpNotFound();
+                // Ažuriranje i brisanje treba dozvoliti samo za aukcije koje su u stanju READY
+                if (auction == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(auction);
             }
-            return View(auction);
+            return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
         }
 
         // POST: Auctions/Edit/5
@@ -246,9 +252,10 @@ namespace IEP___projekat_AS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        //[Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "Id,winner_Id,name,length,price,creation,opening,closing,details,img,status,start_offer")] Auction auction)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && auction.status.Equals("READY"))
             {
                 db.Entry(auction).State = EntityState.Modified;
                 db.SaveChanges();
