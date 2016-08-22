@@ -16,12 +16,17 @@ namespace IEP___projekat_AS.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
 
+        public ActionResult OpenAuction(int ?id)
+        {
+            return View();
+        }
+
         //// GET: Auctions NEW!
         //public ActionResult NewIndex()
         //{
         //    return View(db.Auctions.ToList());
         //}
-        
+
         // POST: Auctions -> SEARCH!
         [HttpPost]
         [ValidateAntiForgeryToken]
