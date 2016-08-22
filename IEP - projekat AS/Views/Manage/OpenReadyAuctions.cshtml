@@ -1,0 +1,96 @@
+﻿@using IEP___projekat_AS.Models;
+@model IEnumerable<Auction>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Open Ready Auctions";
+}
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+<p class="text-danger">@ViewBag.ErrorMessage</p>
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-10">
+        <div class="table-responsive">
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.winner_Id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.length)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.price)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.creation)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.opening)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.closing)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.details)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.status)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.start_offer)
+                    </th>
+                    <th></th>
+                </tr>
+                @if (Model != null)
+                {
+                    foreach (var auction in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => auction.winner_Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => auction.name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => auction.length)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => auction.price)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => auction.creation)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => auction.opening)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => auction.closing)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => auction.details)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => auction.status)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => auction.start_offer)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Open", "OpenAuction", new { id = auction.Id })
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+    </div>
+
+    <div class="col-md-2"></div>
+</div>

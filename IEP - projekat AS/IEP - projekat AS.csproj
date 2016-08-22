@@ -375,6 +375,7 @@
     <Content Include="Views\Manage\AllTokenOrders.cshtml" />
     <Content Include="Views\Manage\ChangeDetails.cshtml" />
     <Content Include="Views\Auctions\OpenAuction.cshtml" />
+    <Content Include="Views\Manage\OpenReadyAuctions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -9,7 +9,7 @@
 
 <div class="row">
 
-    <div class="col-md-6">
+    <div class="col-md-3">
         <ul class="nav nav-pills nav-stacked">
             <li>
                 @Html.ActionLink("Manage your account details", "ChangeDetails")
@@ -19,51 +19,29 @@
             </li>
             <li>@Html.ActionLink("Buy tokens", "BuyTokens")</li>
             <li>@Html.ActionLink("All token orders", "AllTokenOrders")</li>
+            @if (User.IsInRole("Admin"))
+            {
+
+                <li>@Html.ActionLink("Open ready auctions", "OpenReadyAuctions")</li>
+            }
         </ul>
+
     </div>
 
-    <div class="col-md-6">
-        @Html.Label("Name") @Model.Name <br />
-        @Html.Label("Surname") @Model.Surname<br />
-        @Html.Label("Email") @Model.Email<br />
-        @Html.Label("Token Balance:") @Model.Credit<br />
+    <div class="col-md-8">
+        <br />
+        <div class="form-group">
+            @Html.Label("Name: ") @Model.Name <br />
+        </div>
+        <div class="form-group">
+            @Html.Label("Surname: ") @Model.Surname<br />
+        </div>
+        <div class="form-group">
+            @Html.Label("Email: ") @Model.Email<br />
+        </div>
+        <div class="form-group">
+            @Html.Label("Token Balance: ") @Model.Credit<br />
+        </div>
+                </div>
+
     </div>
-
-</div>
-
-
-<div>
-    <h4>Change your account settings</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>Name:</dt>
-        <dd>
-            @Model.Name
-        </dd>
-        <dt>Surname:</dt>
-        <dd>
-            @Model.Surname
-        </dd>
-        <dt>Email:</dt>
-        <dd>
-            @Model.Email
-        </dd>
-        <dt>Credit(Tokens):</dt>
-        <dd>
-            @Model.Credit
-        </dd>
-        <dt>Password:</dt>
-        <dd>
-            [
-            @if (Model.HasPassword)
-            {
-                @Html.ActionLink("Change your password", "ChangePassword")
-            }
-            else
-            {
-                @Html.ActionLink("Create", "SetPassword")
-            }
-            ]
-        </dd>
-    </dl>
-</div>

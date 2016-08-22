@@ -17,6 +17,30 @@ namespace IEP___projekat_AS.Controllers
         private ApplicationUserManager _userManager;
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public ActionResult OpenReadyAuctions()
+        {
+            return View(db.Auctions.ToList());
+        }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult OpenAuction(int ? id)
+        {
+            if (id == null)
+            {
+                return new HttpNotFoundResult("That auction doesn't exist!");
+            }
+            var auction = db.Auctions.Find(id);
+            if (auction.status.Equals("READY"))
+            {
+                auction.status = "OPEN";
+                db.SaveChanges();
+                ViewBag.StatusMessage = "Auction number(" + id + ") opened!";
+                return View("OpenReadyAuctions",db.Auctions.ToList());
+            }
+            ViewBag.ErrorMessage = "Auction number(" + id + ") failed to open!";
+            return View("OpenReadyAuctions",db.Auctions.ToList());
+        }
+
         public ActionResult AllTokenOrders()
         {
             //prikazi sve ordere token-a
@@ -133,7 +157,15 @@ namespace IEP___projekat_AS.Controllers
         // GET: /Manage/ChangeDetails
         public ActionResult ChangeDetails()
         {
-            return View();
+            var userId = User.Identity.GetUserId();
+            var user = db.Users.Find(userId);
+            var model = new ChangeDetailsViewModel();
+
+            model.Username = user.UserName;
+            model.Name = user.Name;
+            model.Surname = user.Surname;
+            model.Email = user.Email;
+            return View(model);
         }
 
         //
@@ -142,24 +174,22 @@ namespace IEP___projekat_AS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ChangeDetails(ChangeDetailsViewModel model)
         {
-            return View();
-            //CODE FOR CHANGE PASSWORD
-            //if (!ModelState.IsValid)
-            //{
-            //    return View(model);
-            //}
-            //var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
-            //if (result.Succeeded)
-            //{
-            //    var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            //    if (user != null)
-            //    {
-            //        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-            //    }
-            //    return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
-            //}
-            //AddErrors(result);
-            //return View(model);
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var userId = User.Identity.GetUserId();
+            var user = db.Users.Find(userId);
+
+            user.Name = model.Name;
+            user.Surname = model.Surname;
+            user.Email = model.Email;
+            user.UserName = model.Username;
+
+            db.SaveChanges();
+
+            return RedirectToAction("Index", "Manage");
         }
 
         //
