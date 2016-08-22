@@ -13,6 +13,7 @@ namespace IEP___projekat_AS.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(IEP___projekat_AS.Models.ApplicationDbContext context)

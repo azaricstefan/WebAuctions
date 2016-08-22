@@ -18,6 +18,9 @@ namespace IEP___projekat_AS.Controllers
 
         public ActionResult OpenAuction(int ?id)
         {
+            var auction = db.Auctions.Find(id);
+            auction.opening = DateTime.Now; //update opening
+
             return View();
         }
 
@@ -209,10 +212,12 @@ namespace IEP___projekat_AS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public ActionResult Create([Bind(Include = "Id,winner_Id,name,length,price,creation,opening,closing,details,img,status,start_offer")] Auction auction)
+        public ActionResult Create([Bind(Include = "Id,name,length,price,creation,opening,closing,details,img,status")] Auction auction)
         {
             if (ModelState.IsValid)
             {
+                auction.start_offer = auction.price; //na pocetku je ista cena
+                auction.closing = auction.opening = auction.creation = DateTime.Now; //moram odmah inicijalizovati opening i closing...
                 db.Auctions.Add(auction);
                 db.SaveChanges();
                 return RedirectToAction("Index");

@@ -23,7 +23,7 @@ namespace IEP___projekat_AS.Models
         public int length { get; set; }
 
         // Current price of the item
-        public decimal price { get; set; }
+        public int price { get; set; }
 
         public DateTime creation { get; set; }
 
