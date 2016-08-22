@@ -24,5 +24,11 @@ namespace IEP___projekat_AS.Models
         public string status { get; set; }
 
         public DateTime date { get; set; }
+
+        /// <summary>
+        /// STANDARD,GOLD,PLATINUM
+        /// </summary>
+        [StringLength(50)]
+        public string package { get; set; }
     }
 }

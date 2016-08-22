@@ -15,13 +15,16 @@ namespace IEP___projekat_AS.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public ActionResult AllTokenOrders()
         {
             //prikazi sve ordere token-a
-            //TODO
-            return View();
+            var userId = User.Identity.GetUserId();
+
+            var orders = db.Orders.Where(o => o.user_Id == userId).ToList();
+
+            return View(orders);
         }
 
         //[HttpPost]
