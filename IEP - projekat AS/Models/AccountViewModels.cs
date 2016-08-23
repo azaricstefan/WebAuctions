@@ -3,6 +3,21 @@ using System.ComponentModel.DataAnnotations;
 
 namespace IEP___projekat_AS.Models
 {
+
+    public class BuyTokensViewModel
+    {
+        [Required(ErrorMessage = "Your must provide a PhoneNumber")]
+        [Display(Name = "Mobile Phone")]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^06[0-9]{7,8}$", ErrorMessage = "Not a valid Phone number")]
+        public string PhoneNumber { get; set; }
+
+        [Required(ErrorMessage = "Your must select a package type")]
+        [DataType(DataType.Text)]
+        public string PackageType { get; set; }
+
+        public string UserID { get; set; }
+    }
     public class ExternalLoginConfirmationViewModel
     {
         [Required]

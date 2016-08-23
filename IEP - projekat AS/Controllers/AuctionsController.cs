@@ -104,21 +104,17 @@ namespace IEP___projekat_AS.Controllers
 
                     switch (typeOfSearch)
                     {
-                        case "EK": //Exact Keywords
+                        case "EK": //Exact Keywords -> where Name like 'first' AND Name like 'second'...
                             foreach (string keyword in keywords)
                             {
                                 string temp = keyword;
-                                predicate = predicate.Or(a => a.name.Equals(temp));
+                                predicate = predicate.And(a => a.name.Equals(temp));
                             }
                             break;
-                        case "PA": //Partial All
-                            foreach (string keyword in keywords)
-                            {
-                                string temp = keyword;
-                                predicate = predicate.Or(a => a.name.Contains(temp));
-                            }
+                        case "PA": //Partial All -> where Name like 'Go He'
+                            predicate = predicate.Or(a => a.name.Contains(name));
                             break;
-                        case "PK": //Partial Keywords
+                        case "PK": //Partial Keywords -> where Name like 'first' OR Name like 'second'...
                             foreach (string keyword in keywords)
                             {
                                 string temp = keyword;

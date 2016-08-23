@@ -51,16 +51,16 @@ namespace IEP___projekat_AS.Controllers
             return View(orders);
         }
 
-        public ActionResult BuyTokens(String packageType, String phoneNumber)/*(string api, string clientId)*/
+        public ActionResult BuyTokens([Bind(Include = "PackageType, PhoneNumber, UserID")] BuyTokensViewModel btvm)/*(String packageType, String phoneNumber)/*(string api, string clientId)*/
         {
             var userId = User.Identity.GetUserId();
             var user = db.Users.Find(userId);
-
-            if(String.IsNullOrEmpty(packageType))
+            btvm.UserID = userId;
+            if (String.IsNullOrEmpty(btvm.PackageType) || String.IsNullOrEmpty(btvm.PhoneNumber))
             {
-                return View(user);
+                return View(btvm);
             }
-            var value = Decimal.Parse(packageType);
+            var value = Decimal.Parse(btvm.PackageType);
 
             user.Credit += value;
             db.SaveChanges();

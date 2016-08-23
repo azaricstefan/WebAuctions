@@ -1,5 +1,5 @@
 ﻿@using IEP___projekat_AS.Models
-@model ApplicationUser
+@model BuyTokensViewModel
 
 @{
     Layout = "~/Views/Shared/_LayoutCentili.cshtml";
@@ -14,11 +14,11 @@
     <div class="col-md-3"></div>
     <div class="col-md-6">
 
-        @using (Html.BeginForm("BuyTokens","Manage",FormMethod.Get))
+        @using (Html.BeginForm("BuyTokens", "Manage", FormMethod.Get))
         {
             <div class="form-group">
-                @Html.Label("Package:")
-                @Html.DropDownList("packageType",
+                @Html.LabelFor(model => model.PackageType, "Package:")
+                @Html.DropDownListFor(model => model.PackageType,
                  new List<SelectListItem>
                  {
                     new SelectListItem { Text="Standard (1 token)", Value="1" },
@@ -28,15 +28,11 @@
                  }, null, new { @class = "form-control input-md" })
             </div>
             <div class="form-group">
-                @Html.Label("PhoneNumber(06x xxxx xxx):")
-                @Html.TextBox("phoneNumber", null, new
-           {
-               @class = "form-control",
-               @dataval = "true",
-               @data_val_regex = "Phone number must be in this format: 06XXXXXXX or 06XXXXXXXX.",
-               @data_val_regex_pattern = "^06[0-9]{7,8}$",
-               @data_val_required = "Phone Number field is required."
-           })
+                @Html.LabelFor(model => model.PhoneNumber, "PhoneNumber(06x xxxx xxx):")
+                @Html.EditorFor(model => model.PhoneNumber,
+                    new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PhoneNumber, "Your must provide a PhoneNumber",
+                    new { @class = "myvalidation" })
             </div>
 
             <div class="form-group">
@@ -45,7 +41,7 @@
         }
         <br />
         <a id="c-mobile-payment-widget"
-           href="http://stage.centili.com/widget/WidgetModule?api=870d5e86ef71dfa2c2570699f9fbf172&clientId=@Model.Id">
+           href="http://stage.centili.com/widget/WidgetModule?api=870d5e86ef71dfa2c2570699f9fbf172&clientId=@Model.UserID">
             <img src="https://www.centili.com/images/centili-widget-button.png" style="cursor: not-allowed" />
         </a>
     </div>
