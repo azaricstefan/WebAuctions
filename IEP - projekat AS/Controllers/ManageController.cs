@@ -73,19 +73,22 @@ namespace IEP___projekat_AS.Controllers
             {
                 case 1:
                     order.package = "STANDARD";
+                    order.price = 10;
                     break;
                 case 5:
                     order.package = "GOLD";
+                    order.price = 50;
                     break;
                 case 10:
                     order.package = "PLATINUM";
+                    order.price = 100;
                     break;
             }
             order.status = "WAITING";
             order.user_Id = userId;
             db.Orders.Add(order);
             db.SaveChanges();
-            return View("AllTokenOrders", orders);
+            return RedirectToAction("AllTokenOrders", orders);
         }
 
         //public ActionResult BuyTokens()/*String packageType, String phoneNumber)*/

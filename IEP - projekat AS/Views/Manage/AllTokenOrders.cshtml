@@ -9,37 +9,100 @@
 <h3>All token orders.</h3>
 <h5>This is the history of all the orders you had.</h5>
 
+@*<div class="row">
+
+        <div class="col-md-2"></div>
+
+        <div class="col-md-10">
+            @{int i = 1;}
+            @foreach (var order in Model)
+            {
+                @Html.Label("Purchase number ");<span> @i:</span> <br />
+
+                @Html.Label("Number of tokens:");
+                @Html.DisplayFor(m => order.number_of_tokens); <br />
+
+                @Html.Label("Price:");
+                @Html.DisplayFor(m => order.price); <br />
+
+                @Html.Label("Status:");
+                @Html.DisplayFor(m => order.status); <br />
+
+                @Html.Label("Package:");
+                @Html.DisplayFor(m => order.package); <br />
+
+                @Html.Label("Date and time:");
+                @Html.DisplayFor(m => order.date); <br /><br />
+
+                i++;
+            }
+
+
+        </div>
+
+        <div class="col-md-2"></div>
+
+    </div>*@
+
+
 <div class="row">
-
-    <div class="col-md-2"></div>
-
+    <div class="col-md-1"></div>
     <div class="col-md-10">
-        @{int i = 1;}
-        @foreach (var order in Model)
-        {
-            @Html.Label("Purchase number ");<span> @i:</span> <br />
-
-            @Html.Label("Number of tokens:");
-            @Html.DisplayFor(m => order.number_of_tokens); <br />
-
-            @Html.Label("Price:");
-            @Html.DisplayFor(m => order.price); <br />
-
-            @Html.Label("Status:");
-            @Html.DisplayFor(m => order.status); <br />
-
-            @Html.Label("Package:");
-            @Html.DisplayFor(m => order.package); <br />
-
-            @Html.Label("Date and time:");
-            @Html.DisplayFor(m => order.date); <br /><br />
-
-            i++;
-        }
-
-
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.Label("Purchase number ")
+                </th>
+                <th>
+                    @Html.Label("Number of tokens:")
+                </th>
+                <th>
+                    @Html.Label("Price:")
+                </th>
+                <th>
+                    @Html.Label("Status:")
+                </th>
+                <th>
+                    @Html.Label("Package:")
+                </th>
+                <th>
+                    @Html.Label("Date and time:")
+                </th>
+                <th></th>
+            </tr>
+            @if (Model != null)
+            {
+                int i = 1;
+                foreach (var order in Model)
+                {
+                    <tr>
+                        <td>
+                            <span> @i</span>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => order.number_of_tokens)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => order.price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => order.status)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => order.package)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => order.date)
+                        </td>
+                        <td>
+                            @Html.ActionLink("See details(TODO)", "OrderDetails", new { id = order.Id })
+                        </td>
+                    </tr>
+                    i++;
+                }
+            }
+        </table>
     </div>
 
-    <div class="col-md-2"></div>
-
+    <div class="col-md-1"></div>
 </div>
