@@ -33,6 +33,7 @@ namespace IEP___projekat_AS.Controllers
             if (auction.status.Equals("READY"))
             {
                 auction.status = "OPEN";
+                auction.opening = DateTime.Now;
                 db.SaveChanges();
                 ViewBag.StatusMessage = "Auction number(" + id + ") opened!";
                 return View("OpenReadyAuctions",db.Auctions.ToList());

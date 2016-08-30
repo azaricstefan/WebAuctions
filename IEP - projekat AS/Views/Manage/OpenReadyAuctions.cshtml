@@ -15,9 +15,9 @@
         <div class="table-responsive">
             <table class="table">
                 <tr>
-                    <th>
+                    @*<th>
                         @Html.DisplayNameFor(model => model.winner_Id)
-                    </th>
+                    </th>*@
                     <th>
                         @Html.DisplayNameFor(model => model.name)
                     </th>
@@ -52,9 +52,9 @@
                     foreach (var auction in Model)
                     {
                         <tr>
-                            <td>
+                            @*<td>
                                 @Html.DisplayFor(modelItem => auction.winner_Id)
-                            </td>
+                            </td>*@
                             <td>
                                 @Html.DisplayFor(modelItem => auction.name)
                             </td>

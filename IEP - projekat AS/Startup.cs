@@ -13,6 +13,7 @@ namespace IEP___projekat_AS
         {
             ConfigureAuth(app);
             createRolesandUsers();
+            app.MapSignalR(); //za signalR nesto..
         }
 
         // In this method we will create default User roles and Admin user for login   
