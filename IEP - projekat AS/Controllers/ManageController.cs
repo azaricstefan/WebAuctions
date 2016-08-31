@@ -35,10 +35,10 @@ namespace IEP___projekat_AS.Controllers
                 auction.status = "OPEN";
                 auction.opening = DateTime.Now;
                 db.SaveChanges();
-                ViewBag.StatusMessage = "Auction number(" + id + ") opened!";
+                ViewBag.StatusMessage = "Auction: " + auction.name + ", with ID:" + id + " opened!";
                 return View("OpenReadyAuctions",db.Auctions.ToList());
             }
-            ViewBag.ErrorMessage = "Auction number(" + id + ") failed to open!";
+            ViewBag.ErrorMessage = "Auction: " + auction.name + ", with ID:" + id + " failed to open! | STATUS => " + auction.status;
             return View("OpenReadyAuctions",db.Auctions.ToList());
         }
 

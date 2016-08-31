@@ -85,7 +85,6 @@ namespace IEP___projekat_AS.Controllers
                 //NEMA PARAMETARA POSALJI SVE POSTOJECE AUKCIJE
                 //postavi auctionList
                 //savcm.auctionList = db.Auctions.OrderBy(a => a.Id).ToPagedList(pageNumber, pageSize);
-                String a = "ndas";
             }
             else
             {
