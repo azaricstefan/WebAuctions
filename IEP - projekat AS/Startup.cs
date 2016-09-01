@@ -23,7 +23,6 @@ namespace IEP___projekat_AS
             app.UseHangfireServer();
             app.UseHangfireDashboard();
 
-            var manager = new RecurringJobManager();
             BackgroundJob.Enqueue(() => cron());
         }
 
@@ -31,7 +30,7 @@ namespace IEP___projekat_AS
         {
             updateAuctions();
             
-            BackgroundJob.Schedule(() => cron(), System.TimeSpan.FromSeconds(1.0));
+            BackgroundJob.Schedule(() => cron(), System.TimeSpan.FromSeconds(1));
         }
 
         private void updateAuctions()
@@ -41,8 +40,11 @@ namespace IEP___projekat_AS
             foreach (var a in auctions)
             {
                 if (a.length == 0 && a.status != "EXPIRED")
+                {
                     a.status = "EXPIRED";
-                else if(a.status == "OPEN")
+                    //add winner id?
+                }
+                else if (a.status == "OPEN")
                     a.length--;
             }
             db.SaveChanges();

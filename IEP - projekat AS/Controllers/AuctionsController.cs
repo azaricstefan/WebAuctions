@@ -83,20 +83,18 @@ namespace IEP___projekat_AS.Controllers
                 && minPrice == Decimal.Zero && maxPrice == Decimal.Zero)
             {
                 //NEMA PARAMETARA POSALJI SVE POSTOJECE AUKCIJE
-                //postavi auctionList
-                //savcm.auctionList = db.Auctions.OrderBy(a => a.Id).ToPagedList(pageNumber, pageSize);
             }
             else
             {
                 //EXACT ALL po default-u kada nema typeOfSearch
-                if (String.IsNullOrEmpty(typeOfSearch))
+                if (String.IsNullOrEmpty(typeOfSearch) && !String.IsNullOrEmpty(name))
                 {
                     //EXACT ALL
                     savcm.auctionList = savcm.auctionList.Where(a => a.name.Equals(name))
                         .OrderBy(a => a.Id)
                         .ToPagedList(pageNumber, pageSize);
                 }
-                else
+                else if (!String.IsNullOrEmpty(name)) //NEKI OD OSTALIH VRSTA PRETRAGA
                 {
                     string[] keywords = name.Split(null); //pripremi kljucne reci
                     var predicate = PredicateBuilder.False<Auction>();
@@ -126,19 +124,7 @@ namespace IEP___projekat_AS.Controllers
                         .OrderBy(a => a.Id)
                         .ToPagedList(pageNumber, pageSize);
                 }
-                //*********NAME SEARCH*********************************
-                //string[] keywords = name.Split(null);
-                //var predicate = PredicateBuilder.False<Auction>();
-
-                //foreach (string keyword in keywords)
-                //{
-                //    string temp = keyword;
-                //    predicate = predicate.Or(a => a.name.Contains(temp));
-                //}
-                //savcm.auctionList = db.Auctions.Where(predicate)
-                //    .OrderBy(a => a.Id)
-                //    .ToPagedList(pageNumber, pageSize);
-                //*******************************PREDICATE TEST
+                
                 //Filter minimal price
                 if (minPrice != Decimal.Zero)
                     savcm.auctionList = savcm.auctionList.Where(a => a.price >= minPrice)
@@ -155,20 +141,8 @@ namespace IEP___projekat_AS.Controllers
                         .OrderBy(a => a.Id)
                         .ToPagedList(pageNumber, pageSize);
 
-
-
             }
-
-            //savcm.auctionList = db.Auctions.
-            //    Where(a => a.name.Contains("Aukcija") && a.price < 1000).
-            //    OrderBy(a => a.Id).
-            //    ToPagedList(pageNumber,pageSize);
-
-            //*********************************** SETTING UP*******************
-            //ViewBag.CurrentSort = sortOrder;
-
             return View(savcm);
-            //return View(db.Auctions.ToList()); //OLD
         }
 
         public ActionResult GetCentiliDetails()

@@ -27,9 +27,10 @@ namespace IEP___projekat_AS.Hubs
             offer.Auction = auctionToBid;
             offer.time = DateTime.Now;
             offer.user_Id = user.Id;
-            offer.value = auctionToBid.price++;
+            offer.value = auctionToBid.price++; //increment 
 
             auctionToBid.Offers.Add(offer);
+
             db.SaveChanges();
 
             /// Any connection or hub wire up and configuration should go here

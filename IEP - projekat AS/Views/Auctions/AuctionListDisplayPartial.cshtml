@@ -35,7 +35,8 @@
 
                 Length: @Html.DisplayFor(modelItem => item.length)<br />
                 Start offer: @Html.DisplayFor(modelItem => item.start_offer)<br />
-                Current offer: @Html.DisplayFor(modelItem => item.price)<br />
+                Current offer:
+                <div id="@item.Id-price">@Html.DisplayFor(modelItem => item.price)</div><br />
                 Ime bid-era<br />
                 <p id="@item.Id-auctionStatus">Status: @Html.DisplayFor(modelItem => item.status)</p><br />
                 <input id="@item.Id-bid" type="button"
@@ -77,6 +78,9 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
 
             $('#' + message + '-auctionStatus').text('OPEN');
             $('#' + message + '-vreme').text('01:23:45');
+            var price = $('#' + message + '-price').text();
+            var priceInt = parseInt(price, 10) + 1;
+            $('#' + message + '-price').text(priceInt);
         };
 
         // Get the user name and store it to prepend to messages.
@@ -139,6 +143,6 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
                 seconds = "0" + seconds;
 
             $(this).text(hours + ":" + minutes + ":" + seconds)
-            })
-        }, 1000);
+        })
+    }, 1000);
 </script>
