@@ -119,6 +119,10 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
             var minutes = time.slice(3, 5);
             var hours = time.slice(0, 2);
 
+            if (hours == "00" && minutes == "00" && seconds == "00") {
+                return;
+            }
+
             var d = new Date(((parseInt(hours, 10) - 1) * 3600 + parseInt(minutes, 10) * 60 + parseInt(seconds, 10) - 1) * 1000);
 
             hours = d.getHours();

@@ -1,4 +1,7 @@
-﻿using IEP___projekat_AS.Models;
+﻿using System;
+using Hangfire;
+using Hangfire.Common;
+using IEP___projekat_AS.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
@@ -14,6 +17,35 @@ namespace IEP___projekat_AS
             ConfigureAuth(app);
             createRolesandUsers();
             app.MapSignalR(); //za signalR nesto..
+
+            //neke za scheduling stvari
+            GlobalConfiguration.Configuration.UseSqlServerStorage("MyDbContext");
+            app.UseHangfireServer();
+            app.UseHangfireDashboard();
+
+            var manager = new RecurringJobManager();
+            BackgroundJob.Enqueue(() => cron());
+        }
+
+        public void cron()
+        {
+            updateAuctions();
+            
+            BackgroundJob.Schedule(() => cron(), System.TimeSpan.FromSeconds(1.0));
+        }
+
+        private void updateAuctions()
+        {
+            var db = new ApplicationDbContext();
+            var auctions = db.Auctions;
+            foreach (var a in auctions)
+            {
+                if (a.length == 0 && a.status != "EXPIRED")
+                    a.status = "EXPIRED";
+                else if(a.status == "OPEN")
+                    a.length--;
+            }
+            db.SaveChanges();
         }
 
         // In this method we will create default User roles and Admin user for login   

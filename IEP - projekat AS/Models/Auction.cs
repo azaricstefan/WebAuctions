@@ -41,7 +41,7 @@ namespace IEP___projekat_AS.Models
 
         [Required]
         [StringLength(50)]
-        //D-DRAFT, R-READY, O-OPEN, S-SOLD, E-EXPIRED
+        ///D-DRAFT, R-READY, O-OPEN, S-SOLD, E-EXPIRED
         public string status { get; set; }
 
         public int start_offer { get; set; }
