@@ -8,17 +8,16 @@ namespace IEP___projekat_AS.Models
 
     public partial class Offer
     {
-        [Key]
-        [Column(Order = 0)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        //[Column(Order = 0)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] //POTREBNO DA BI SQL MANAGEMENT STUDIO GENERISAO ID...
         public int Id { get; set; }
 
-        [Key]
-        [Column(Order = 1)]
+        //[Key]
+        //[Column(Order = 1)]
         public string user_Id { get; set; }
 
-        [Key]
-        [Column(Order = 2)]
+        //[Key]
+        //[Column(Order = 2)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int auction_Id { get; set; }
 

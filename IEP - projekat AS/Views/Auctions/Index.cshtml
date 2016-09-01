@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = "Auction - Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutSignalR.cshtml";
 }
 
 <h2>Index</h2>
@@ -27,92 +27,5 @@
 <hr />
 
 <p>
-@Html.ActionLink("Create New", "Create")
+@Html.ActionLink("Create New Auction", "Create")
 </p>
-
-
-        @*<div class="table-responsive">
-                <table class="table">
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.winner_Id)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.name)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.length)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.price)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.creation)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.opening)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.closing)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.details)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.img)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.status)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.start_offer)
-                        </th>
-                        <th></th>
-                    </tr>
-
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.winner_Id)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.length)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.price)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.creation)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.opening)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.closing)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.details)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.img)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.status)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.start_offer)
-                            </td>
-                            <td>
-                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                            </td>
-                        </tr>
-                    }
-
-                </table>
-            </div>*@
