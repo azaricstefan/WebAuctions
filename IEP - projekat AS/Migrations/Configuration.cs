@@ -23,16 +23,16 @@ namespace IEP___projekat_AS.Migrations
                     {
                         //Id = 1,
                         //winner_Id = "a44730fd-210c-4884-84d4-bed6dbe6d311",
-                        name = "Aukcija 1",
-                        length = 10000,
-                        price = 100,
+                        name = "GoPro Hero 4",
+                        length = 3600,
+                        price = 1,
                         creation = DateTime.Now,
-                        opening = DateTime.Now,
-                        closing = DateTime.Now,
+                        //opening = DateTime.Now,
+                        //closing = DateTime.Now,
                         details = "Detalji o aukciji",
-                        img = "http://drop.ndtv.com/TECH/product_database/images/12292014103136AM_635_samsung_galaxy_note_4_slte.jpeg",
+                        img = "https://www.bhphotovideo.com/images/images1000x1000/gopro_chdhy_401_hero4_silver_edition_adventure_1078007.jpg",
                         status = "READY",
-                        start_offer = 100
+                        start_offer = 1
                     }
                 );
             context.Auctions.AddOrUpdate(
@@ -40,16 +40,16 @@ namespace IEP___projekat_AS.Migrations
                     {
                         //Id = 2,
                         //winner_Id = "a44730fd-210c-4884-84d4-bed6dbe6d311",
-                        name = "Aukcija 2",
-                        length = 10000,
-                        price = 200,
+                        name = "Note 4",
+                        length = 7200,
+                        price = 1,
                         creation = DateTime.Now,
-                        opening = DateTime.Now,
-                        closing = DateTime.Now,
+                        //opening = DateTime.Now,
+                        //closing = DateTime.Now,
                         details = "Detalji o aukciji",
                         img = "http://drop.ndtv.com/TECH/product_database/images/12292014103136AM_635_samsung_galaxy_note_4_slte.jpeg",
-                        status = "OPEN",
-                        start_offer = 200
+                        status = "READY",
+                        start_offer = 1
                     }
                 );
             context.Auctions.AddOrUpdate(
@@ -57,16 +57,16 @@ namespace IEP___projekat_AS.Migrations
                     {
                         //Id = 3,
                         //winner_Id = "a44730fd-210c-4884-84d4-bed6dbe6d311",
-                        name = "Aukcija 3",
-                        length = 10000,
-                        price = 300,
+                        name = "ASUS ROG",
+                        length = 10800,
+                        price = 1,
                         creation = DateTime.Now,
-                        opening = DateTime.Now,
-                        closing = DateTime.Now,
+                        //opening = DateTime.Now,
+                        //closing = DateTime.Now,
                         details = "Detalji o aukciji",
-                        img = "http://drop.ndtv.com/TECH/product_database/images/12292014103136AM_635_samsung_galaxy_note_4_slte.jpeg",
-                        status = "DRAFT",
-                        start_offer = 300
+                        img = "https://dlcdnimgs.asus.com/websites/global/products/LYuLg2456gbkV5dw/img/03/14.png",
+                        status = "READY",
+                        start_offer = 1
                     }
                 );
             context.Auctions.AddOrUpdate(
@@ -74,16 +74,16 @@ namespace IEP___projekat_AS.Migrations
                     {
                         //Id = 4,
                         //winner_Id = "a44730fd-210c-4884-84d4-bed6dbe6d311",
-                        name = "Aukcija 4",
-                        length = 10000,
-                        price = 400,
+                        name = "Wireless AC5300",
+                        length = 14400,
+                        price = 1,
                         creation = DateTime.Now,
-                        opening = DateTime.Now,
-                        closing = DateTime.Now,
+                        //opening = DateTime.Now,
+                        //closing = DateTime.Now,
                         details = "Detalji o aukciji",
-                        img = "http://drop.ndtv.com/TECH/product_database/images/12292014103136AM_635_samsung_galaxy_note_4_slte.jpeg",
-                        status = "SOLD",
-                        start_offer = 400
+                        img = "http://images17.newegg.com/is/image/newegg/33-320-244-TS?$S640$",
+                        status = "READY",
+                        start_offer = 1
                     }
                 );
             context.Auctions.AddOrUpdate(
@@ -91,16 +91,16 @@ namespace IEP___projekat_AS.Migrations
                     {
                         //Id = 5,
                         //winner_Id = "a44730fd-210c-4884-84d4-bed6dbe6d311",
-                        name = "Aukcija 5",
-                        length = 10000,
-                        price = 500,
+                        name = "Gaming Keyboard",
+                        length = 86399,
+                        price = 1,
                         creation = DateTime.Now,
-                        opening = DateTime.Now,
-                        closing = DateTime.Now,
+                        //opening = DateTime.Now,
+                        //closing = DateTime.Now,
                         details = "Detalji o aukciji",
-                        img = "http://drop.ndtv.com/TECH/product_database/images/12292014103136AM_635_samsung_galaxy_note_4_slte.jpeg",
-                        status = "EXPIRED",
-                        start_offer = 500
+                        img = "http://www.corsair.com/~/media/corsair/product%20photos/keyboards/strafe/large/strafe_na_mx_red_01.png",
+                        status = "READY",
+                        start_offer = 1
                     }
                 );
 

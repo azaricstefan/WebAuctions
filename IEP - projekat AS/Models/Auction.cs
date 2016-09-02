@@ -27,9 +27,9 @@ namespace IEP___projekat_AS.Models
 
         public DateTime creation { get; set; }
 
-        public DateTime opening { get; set; }
+        public DateTime? opening { get; set; }
 
-        public DateTime closing { get; set; }
+        public DateTime? closing { get; set; }
 
         [Required]
         [StringLength(500)]

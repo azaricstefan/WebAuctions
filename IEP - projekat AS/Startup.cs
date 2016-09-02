@@ -23,15 +23,15 @@ namespace IEP___projekat_AS
             app.UseHangfireServer();
             app.UseHangfireDashboard();
 
-            BackgroundJob.Enqueue(() => cron());
+            //BackgroundJob.Enqueue(() => cron());
         }
 
-        public void cron()
-        {
-            updateAuctions();
+        //public void cron()
+        //{
+        //    updateAuctions();
             
-            BackgroundJob.Schedule(() => cron(), System.TimeSpan.FromSeconds(1));
-        }
+        //    BackgroundJob.Schedule(() => cron(), System.TimeSpan.FromSeconds(10));
+        //}
 
         private void updateAuctions()
         {
@@ -45,7 +45,7 @@ namespace IEP___projekat_AS
                     //add winner id?
                 }
                 else if (a.status == "OPEN")
-                    a.length--;
+                    a.length-=10;
             }
             db.SaveChanges();
         }

@@ -186,7 +186,7 @@ namespace IEP___projekat_AS.Controllers
             if (ModelState.IsValid)
             {
                 auction.start_offer = auction.price; //na pocetku je ista cena
-                auction.closing = auction.opening = auction.creation = DateTime.Now; //moram odmah inicijalizovati opening i closing...
+                /*auction.closing = auction.opening = */auction.creation = DateTime.Now; //moram odmah inicijalizovati opening i closing...
                 db.Auctions.Add(auction);
                 db.SaveChanges();
                 return RedirectToAction("Index");

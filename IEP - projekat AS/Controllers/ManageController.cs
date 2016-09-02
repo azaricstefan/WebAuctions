@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using IEP___projekat_AS.Models;
+using Hangfire;
 
 namespace IEP___projekat_AS.Controllers
 {
@@ -23,7 +24,7 @@ namespace IEP___projekat_AS.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public ActionResult OpenAuction(int ? id)
+        public ActionResult OpenAuction(int? id)
         {
             if (id == null)
             {
@@ -34,12 +35,28 @@ namespace IEP___projekat_AS.Controllers
             {
                 auction.status = "OPEN";
                 auction.opening = DateTime.Now;
+                auction.closing = DateTime.Now.Add(TimeSpan.FromSeconds(auction.length));
+                //create cron task
+                BackgroundJob.Schedule(() => closeAuctionTask(auction), new DateTimeOffset((DateTime)auction.closing));
                 db.SaveChanges();
                 ViewBag.StatusMessage = "Auction: " + auction.name + ", with ID:" + id + " opened!";
-                return View("OpenReadyAuctions",db.Auctions.ToList());
+                return View("OpenReadyAuctions", db.Auctions.ToList());
             }
             ViewBag.ErrorMessage = "Auction: " + auction.name + ", with ID:" + id + " failed to open! | STATUS => " + auction.status;
-            return View("OpenReadyAuctions",db.Auctions.ToList());
+            return View("OpenReadyAuctions", db.Auctions.ToList());
+        }
+
+        public void closeAuctionTask(Auction tmp)
+        {
+            var a = db.Auctions.Where(m => m.Id == tmp.Id).FirstOrDefault();
+            if (a == null) return;
+            if (DateTime.Now > a.closing && a.status != "EXPIRED")
+            {
+                //DODATI ONO SA 10 SEKUNDI!
+                a.status = "EXPIRED";
+                //winnerID?
+            }
+            db.SaveChanges();
         }
 
         public ActionResult AllTokenOrders()
@@ -116,9 +133,9 @@ namespace IEP___projekat_AS.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -151,15 +168,15 @@ namespace IEP___projekat_AS.Controllers
             var model = new IndexViewModel
             {
                 //novo
-                Name              = UserManager.FindById(User.Identity.GetUserId()).Name,
-                Surname           = UserManager.FindById(User.Identity.GetUserId()).Surname,
-                Email             = UserManager.FindById(User.Identity.GetUserId()).Email,
-                Credit            = UserManager.FindById(User.Identity.GetUserId()).Credit,
+                Name = UserManager.FindById(User.Identity.GetUserId()).Name,
+                Surname = UserManager.FindById(User.Identity.GetUserId()).Surname,
+                Email = UserManager.FindById(User.Identity.GetUserId()).Email,
+                Credit = UserManager.FindById(User.Identity.GetUserId()).Credit,
                 //end novo
-                HasPassword       = HasPassword(),
-                PhoneNumber       = await UserManager.GetPhoneNumberAsync(userId),
-                TwoFactor         = await UserManager.GetTwoFactorEnabledAsync(userId),
-                Logins            = await UserManager.GetLoginsAsync(userId),
+                HasPassword = HasPassword(),
+                PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
+                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
+                Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
             return View(model);
@@ -348,7 +365,7 @@ namespace IEP___projekat_AS.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -399,6 +416,6 @@ namespace IEP___projekat_AS.Controllers
             Error
         }
 
-#endregion
+        #endregion
     }
 }

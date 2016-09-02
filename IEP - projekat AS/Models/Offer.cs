@@ -9,6 +9,7 @@ namespace IEP___projekat_AS.Models
     public partial class Offer
     {
         //[Column(Order = 0)]
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)] //POTREBNO DA BI SQL MANAGEMENT STUDIO GENERISAO ID...
         public int Id { get; set; }
 

@@ -389,7 +389,6 @@
     <Content Include="Views\Manage\ChangeDetails.cshtml" />
     <Content Include="Views\Auctions\OpenAuction.cshtml" />
     <Content Include="Views\Manage\OpenReadyAuctions.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
     <Content Include="Views\Shared\_LayoutSignalR.cshtml" />
   </ItemGroup>
   <ItemGroup>
