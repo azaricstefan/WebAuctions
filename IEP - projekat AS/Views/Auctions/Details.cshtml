@@ -10,118 +10,144 @@
 <div class="row">
     <div class="col-md-6">
         @Html.DisplayFor(model => model.name)<br />
-        <img src="@Html.DisplayFor(model => model.img)" width="450" height="350" alt="Slika predmeta"/><br />
+        <img src="@Html.DisplayFor(model => model.img)" width="450" height="350" alt="Slika predmeta" /><br />
         Current price:@Html.DisplayFor(model => model.price)<br />
-        Starting price:@Html.DisplayFor(model => model.start_offer)<br />
         Auction created on:@Html.DisplayFor(model => model.creation)<br />
+        Auction opened on:@Html.DisplayFor(model => model.opening)<br />
         Auction closing on:@Html.DisplayFor(model => model.closing)<br />
         Status:@Html.DisplayFor(model => model.status)<br />
     </div>
 
     <div class="col-md-6">
-        AUCTION DETAILS - Offer - Name
-        KO JE SVE NUDIO I KOLIKO
-        STEFAN -> 1
-        PERA -> 2
+        <table class="table-bordered" style="text-align:center">
+            <tr>
+                <th style="text-align:center">Num</th>
+                <th style="text-align:center">Id</thstyle="text-align:center">
+                <th style="text-align:center">Username</th>
+                <th style="text-align:center">Ammount</th>
+                <th style="text-align:center">Date Time</th>
+            </tr>
+            @{
+                int i = 0;
+                foreach (var offer in Model.Offers)
+                {
+                    i++;
+                    <tr>
+                        <td>@i</td>
+                        <td>@offer.Id</td>
+                        <td>@offer.user_Fullname</td>
+                        <td>@offer.value</td>
+                        <td>@offer.time</td>
+                    </tr>
+                }
+            }
+        </table>
     </div>
 </div>
 <hr />
 
+
 @*<div>
-    <h4>Auction</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.winner_Id)
-        </dt>
+        <h4>Auction</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.winner_Id)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.winner_Id)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.winner_Id)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.name)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.name)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.name)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.name)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.length)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.length)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.length)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.length)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.price)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.price)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.price)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.price)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.creation)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.creation)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.creation)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.creation)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.opening)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.opening)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.opening)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.opening)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.closing)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.closing)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.closing)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.closing)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.details)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.details)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.details)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.details)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.img)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.img)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.img)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.img)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.status)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.status)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.status)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.status)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.start_offer)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.start_offer)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.start_offer)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.start_offer)
+            </dd>
 
-    </dl>
-</div>*@
+        </dl>
+    </div>*@
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @{
+        if (User.IsInRole("Admin"))
+        {
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }); <br />
+            @Html.ActionLink("Delete", "Delete", new { id = Model.Id }); <br />
+        }
+        Html.ActionLink("Back to List", "Index");
+    }
 </p>

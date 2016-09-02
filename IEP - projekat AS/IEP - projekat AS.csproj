@@ -390,6 +390,7 @@
     <Content Include="Views\Auctions\OpenAuction.cshtml" />
     <Content Include="Views\Manage\OpenReadyAuctions.cshtml" />
     <Content Include="Views\Shared\_LayoutSignalR.cshtml" />
+    <Content Include="Views\Auctions\AuctionsWon.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

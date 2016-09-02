@@ -26,31 +26,33 @@ namespace IEP___projekat_AS
             //BackgroundJob.Enqueue(() => cron());
         }
 
+        //*************DEPRECATED*************************
         //public void cron()
         //{
         //    updateAuctions();
-            
+
         //    BackgroundJob.Schedule(() => cron(), System.TimeSpan.FromSeconds(10));
         //}
 
-        private void updateAuctions()
-        {
-            var db = new ApplicationDbContext();
-            var auctions = db.Auctions;
-            foreach (var a in auctions)
-            {
-                if (a.length == 0 && a.status != "EXPIRED")
-                {
-                    a.status = "EXPIRED";
-                    //add winner id?
-                }
-                else if (a.status == "OPEN")
-                    a.length-=10;
-            }
-            db.SaveChanges();
-        }
+        //*************DEPRECATED*************************
+        //private void updateAuctions()
+        //{
+        //    var db = new ApplicationDbContext();
+        //    var auctions = db.Auctions;
+        //    foreach (var a in auctions)
+        //    {
+        //        if (a.length == 0 && a.status != "EXPIRED")
+        //        {
+        //            a.status = "EXPIRED";
+        //            //add winner id?
+        //        }
+        //        else if (a.status == "OPEN")
+        //            a.length-=10;
+        //    }
+        //    db.SaveChanges();
+        //}
 
-        // In this method we will create default User roles and Admin user for login   
+        /// In this method we will create default User roles and Admin user for login   
         private void createRolesandUsers()
         {
             ApplicationDbContext context = new ApplicationDbContext();

@@ -53,7 +53,9 @@ namespace IEP___projekat_AS.Controllers
             if (DateTime.Now > a.closing && a.status != "EXPIRED")
             {
                 //DODATI ONO SA 10 SEKUNDI!
-                a.status = "EXPIRED";
+                if (a.price > 1)
+                    a.status = "SOLD";
+                else a.status = "EXPIRED";
                 //winnerID?
             }
             db.SaveChanges();

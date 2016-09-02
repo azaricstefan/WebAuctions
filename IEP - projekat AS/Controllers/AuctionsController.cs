@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using IEP___projekat_AS.Models;
 using PagedList;
+using System.Data.Entity.Infrastructure;
 
 namespace IEP___projekat_AS.Controllers
 {
@@ -20,6 +21,19 @@ namespace IEP___projekat_AS.Controllers
         {
             var auction = db.Auctions.Find(id);
             auction.opening = DateTime.Now; //update opening
+            bool saveFailed;
+            do
+            {
+                saveFailed = false;
+                try { db.SaveChanges(); }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    saveFailed = true;
+                    // Update original values from the database 
+                    var entry = ex.Entries.Single();
+                    entry.OriginalValues.SetValues(entry.GetDatabaseValues());
+                }
+            } while (saveFailed);
 
             return View();
         }
@@ -79,6 +93,22 @@ namespace IEP___projekat_AS.Controllers
             //SVE AUCKIJE
             savcm.auctionList = db.Auctions.OrderBy(a => a.Id).ToPagedList(pageNumber, pageSize);
 
+            //Filter minimal price
+            if (minPrice != Decimal.Zero)
+                savcm.auctionList = savcm.auctionList.Where(a => a.price >= minPrice)
+                    .OrderBy(a => a.Id)
+                    .ToPagedList(pageNumber, pageSize);
+            //Filter maximal price
+            if (maxPrice != Decimal.Zero)
+                savcm.auctionList = savcm.auctionList.Where(a => a.price <= maxPrice)
+                    .OrderBy(a => a.Id)
+                    .ToPagedList(pageNumber, pageSize);
+            //Filter status of auction
+            if (!String.IsNullOrEmpty(status))
+                savcm.auctionList = savcm.auctionList.Where(a => a.status.Equals(status))
+                    .OrderBy(a => a.Id)
+                    .ToPagedList(pageNumber, pageSize);
+
             if (String.IsNullOrEmpty(name) && String.IsNullOrEmpty(status) && String.IsNullOrEmpty(typeOfSearch)
                 && minPrice == Decimal.Zero && maxPrice == Decimal.Zero)
             {
@@ -124,33 +154,42 @@ namespace IEP___projekat_AS.Controllers
                         .OrderBy(a => a.Id)
                         .ToPagedList(pageNumber, pageSize);
                 }
-                
-                //Filter minimal price
-                if (minPrice != Decimal.Zero)
-                    savcm.auctionList = savcm.auctionList.Where(a => a.price >= minPrice)
-                        .OrderBy(a => a.Id)
-                        .ToPagedList(pageNumber, pageSize);
-                //Filter maximal price
-                if (maxPrice != Decimal.Zero)
-                    savcm.auctionList = savcm.auctionList.Where(a => a.price <= maxPrice)
-                        .OrderBy(a => a.Id)
-                        .ToPagedList(pageNumber, pageSize);
-                //Filter status of auction
-                if (!String.IsNullOrEmpty(status))
-                    savcm.auctionList = savcm.auctionList.Where(a => a.status.Equals(status))
-                        .OrderBy(a => a.Id)
-                        .ToPagedList(pageNumber, pageSize);
 
             }
             return View(savcm);
         }
 
-        public ActionResult GetCentiliDetails()
+        //GET: Auctions/GetCentiliDetails
+        public ActionResult GetCentiliDetails(string packageType, string clientId)
         {
-            //TODO!
-            return View();
+            var user = db.Users.Where(u => u.Id.Equals(clientId)).FirstOrDefault();
+
+            switch (packageType)
+            {
+                case "STANDARD":
+                    user.Credit += 1;
+                    break;
+                case "GOLD":
+                    user.Credit += 5;
+                    break;
+                case "PLATINUM":
+                    user.Credit += 10;
+                    break;
+                default:
+                    break;
+            }
+
+            db.SaveChanges();
+            return RedirectToAction("Index","Manage");
         }
 
+        //GET: Auctions/AuctionsWon
+        public ActionResult AuctionsWon()
+        {
+            var user = db.Users.Where(u => u.UserName.Equals(User.Identity.Name)).FirstOrDefault();
+            var auctions = db.Auctions.Where(a => a.winner_Id.Equals(user.Id)).ToList();
+            return View(auctions);
+        }
 
         // GET: Auctions/Details/5
         public ActionResult Details(int? id)
@@ -185,10 +224,23 @@ namespace IEP___projekat_AS.Controllers
         {
             if (ModelState.IsValid)
             {
+                auction.winner_FullName = "";
                 auction.start_offer = auction.price; //na pocetku je ista cena
                 /*auction.closing = auction.opening = */auction.creation = DateTime.Now; //moram odmah inicijalizovati opening i closing...
                 db.Auctions.Add(auction);
-                db.SaveChanges();
+                bool saveFailed;
+                do
+                {
+                    saveFailed = false;
+                    try { db.SaveChanges(); }
+                    catch (DbUpdateConcurrencyException ex)
+                    {
+                        saveFailed = true;
+                        // Update original values from the database 
+                        var entry = ex.Entries.Single();
+                        entry.OriginalValues.SetValues(entry.GetDatabaseValues());
+                    }
+                } while (saveFailed);
                 return RedirectToAction("Index");
             }
 
@@ -228,7 +280,21 @@ namespace IEP___projekat_AS.Controllers
             {
                 auction.creation = DateTime.Now;
                 db.Entry(auction).State = EntityState.Modified;
-                db.SaveChanges();
+
+                bool saveFailed;
+                do
+                {
+                    saveFailed = false;
+                    try { db.SaveChanges(); }
+                    catch (DbUpdateConcurrencyException ex)
+                    {
+                        saveFailed = true;
+                        // Update original values from the database 
+                        var entry = ex.Entries.Single();
+                        entry.OriginalValues.SetValues(entry.GetDatabaseValues());
+                    }
+                } while (saveFailed);
+
                 return RedirectToAction("Index");
             }
             return View(auction);
@@ -259,7 +325,19 @@ namespace IEP___projekat_AS.Controllers
             Auction auction = db.Auctions.Find(id);
             auction.status = "DELETED"; //samo postavljanje fleg-a, ne radi se brisanje
             //db.Auctions.Remove(auction);
-            db.SaveChanges();
+            bool saveFailed;
+            do
+            {
+                saveFailed = false;
+                try { db.SaveChanges(); }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    saveFailed = true;
+                    // Update original values from the database 
+                    var entry = ex.Entries.Single();
+                    entry.OriginalValues.SetValues(entry.GetDatabaseValues());
+                }
+            } while (saveFailed);
             return RedirectToAction("Index");
         }
 

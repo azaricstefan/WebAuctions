@@ -22,6 +22,7 @@
             @if (User.IsInRole("Admin"))
             {
                 <li>@Html.ActionLink("Open ready auctions", "OpenReadyAuctions")</li>
+                <li>@Html.ActionLink("Create New Auction", "Create", "Auctions")</li>
             }
         </ul>
 

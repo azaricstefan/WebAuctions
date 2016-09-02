@@ -26,8 +26,7 @@
                         @Html.ActionLink(item.name, "Details", new { id = item.Id })
                     </div>
                     <div class="text-center" style="margin-bottom: 15px">
-                        <img src="@Html.DisplayFor(modelItem => item.img)"
-                             class="img-responsive" width="150" height="150" alt="Picture of subject"
+                        <img src="@Html.DisplayFor(modelItem => item.img)" width="150" height="150" alt="Picture of subject"
                              style="height: 150px;" />
                     </div>
                     @{
@@ -37,21 +36,22 @@
                         {
                             var duration = TimeSpan.FromSeconds(item.length);
                             TimeSpan time = duration - (DateTime.Now - (DateTime)item.opening);
-                            if (time.Seconds < 0)
+                            if (time.Seconds < 0) //OPEN i GOTOVA
                             {
                                 stringTime = "00:00:00";
                             }
-                            else
+                            else //OPEN I NIJE GOTOVA
                             {
                                 stringTime = time.ToString(@"hh\:mm\:ss");
                             }
                         }
-                        else //SVE OSTALO
+                        else if (item.status.Equals("READY"))
                         {
                             var seconds = item.length;
                             TimeSpan time = TimeSpan.FromSeconds(seconds);
                             stringTime = time.ToString(@"hh\:mm\:ss");
                         }
+                        else { stringTime = "00:00:00"; }
                     }
                     <div class="thumbnail">
                         <div class="text-center">
@@ -59,7 +59,7 @@
                             <div class="row">
                                 <div id="@item.Id-price">@Html.DisplayFor(modelItem => item.price)</div><br />
                             </div>
-                            Ime bid-era
+                            <label id="@item.Id-winner">@item.winner_FullName</label>
                             <div class="row">
                                 <p id="@item.Id-auctionStatus">Status: @Html.DisplayFor(modelItem => item.status)</p><br />
                             </div>
@@ -104,6 +104,7 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
             var price = $('#' + message + '-price').text();
             var priceInt = parseInt(price, 10) + 1;
             $('#' + message + '-price').text(priceInt);
+            $('#' + message + '-winner').text(name);
         };
 
     });
@@ -131,7 +132,12 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
             if (hours == "00" && minutes == "00" && seconds == "00") {
                 $(this).text(hours + ":" + minutes + ":" + seconds).css("color", "red");
                 $('#' + bidId[0] + '-bid').addClass("disabled");
-                $('#' + bidId[0] + '-auctionStatus').text('Status: EXPIRED').css("color", "red");
+                //proveri da li je bilo ponuda
+                var val = $('#' + bidId[0] + '-price').text();
+                if (val == "1")
+                    $('#' + bidId[0] + '-auctionStatus').text('Status: EXPIRED').css("color", "red");
+                else
+                    $('#' + bidId[0] + '-auctionStatus').text('Status: SOLD').css("color", "red");
                 return;
             }
             if (hours == "00" && minutes == "00" && seconds == "30") {

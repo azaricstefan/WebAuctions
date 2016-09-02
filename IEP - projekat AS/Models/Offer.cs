@@ -17,6 +17,8 @@ namespace IEP___projekat_AS.Models
         //[Column(Order = 1)]
         public string user_Id { get; set; }
 
+        public string user_Fullname { get; set; }
+
         //[Key]
         //[Column(Order = 2)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
