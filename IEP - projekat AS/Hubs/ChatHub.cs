@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using IEP___projekat_AS.Models;
 using System.Data.Entity.Infrastructure;
+using Hangfire;
 
 namespace IEP___projekat_AS.Hubs
 {
@@ -41,6 +42,7 @@ namespace IEP___projekat_AS.Hubs
             // 3. Vrati kredit prethodnom user-u
             // 4. Uzmi kredit user-u i postavi ga kao trenutnog winnera (id i ime)
             // 5. Dodaj novi offer u offers tabelu
+            // 6. Proveri vreme ako je manje od 10 produzi!
 
             //1
             Offer offer = new Offer();
@@ -64,19 +66,10 @@ namespace IEP___projekat_AS.Hubs
             //5
             auctionToBid.Offers.Add(offer);
 
-            bool saveFailed;
-            do
-            {
-                saveFailed = false;
-                try { db.SaveChanges(); }
-                catch (DbUpdateConcurrencyException ex)
-                {
-                    saveFailed = true;
-                    // Update original values from the database 
-                    var entry = ex.Entries.Single();
-                    entry.OriginalValues.SetValues(entry.GetDatabaseValues());
-                }
-            } while (saveFailed);
+            //6
+            checkTime(auctionToBid);
+
+            saveContextManual();
 
             /// Any connection or hub wire up and configuration should go here
             Clients.All.addNewMessageToPage(user.Name + " " + user.Surname, auctionID); //pozovi addNewMessage
@@ -86,6 +79,66 @@ namespace IEP___projekat_AS.Hubs
         {
             var user = db.Users.Where(u => u.Id.Contains(winner_Id)).FirstOrDefault();
             user.Credit += ammount;
+
+            saveContextManual();
+        }
+
+
+        private void checkTime(Auction a)
+        {
+            var duration = TimeSpan.FromSeconds(a.length);
+            TimeSpan time = duration - (DateTime.Now - (DateTime)a.opening);
+            if (time.Seconds < 10 && time.Seconds > 0) //OPEN i GOTOVA
+            {
+                //OBAVESTI SVE
+                var offers = a.Offers;
+                var lastOffer = offers.LastOrDefault();
+                if (lastOffer != null)
+                {
+                    TimeSpan tlo = (DateTime)a.closing - lastOffer.time;
+                    if (tlo.Seconds < 10 && tlo.Seconds > 0)
+                    {
+                        //produzi
+                        a.closing = a.closing.Value.AddSeconds(10); a.length += 10;
+                        var tmp = a.Offers;
+                        a.Offers = null;
+                        BackgroundJob.Schedule(() => closeAuctionTask(a), new DateTimeOffset((DateTime)a.closing));
+                        a.Offers = tmp;
+                    }
+                }
+            }
+            saveContextManual();
+        }
+
+        //jos jednom
+        public void closeAuctionTask(Auction tmp)
+        {
+            var a = db.Auctions.Where(m => m.Id == tmp.Id).FirstOrDefault();
+            if (a == null) return;
+            if (DateTime.Now > a.closing && a.status != "EXPIRED")
+            {
+                var offers = a.Offers;
+                var lastOffer = offers.LastOrDefault();
+                if (lastOffer != null)
+                {
+                    TimeSpan tlo = (DateTime)a.closing - lastOffer.time;
+                    if (tlo.Seconds < 10 && tlo.Seconds > 0)
+                    {
+                        //DONT CLOSE 
+                        return;
+                    }
+                }
+
+                //DODATI ONO SA 10 SEKUNDI!
+                if (a.price > 1)
+                    a.status = "SOLD";
+                else a.status = "EXPIRED";
+                //winnerID?
+            }
+            saveContextManual();
+        }
+        private void saveContextManual()
+        {
             bool saveFailed;
             do
             {

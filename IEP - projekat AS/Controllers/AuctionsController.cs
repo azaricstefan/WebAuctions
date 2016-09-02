@@ -17,7 +17,7 @@ namespace IEP___projekat_AS.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
 
-        public ActionResult OpenAuction(int ?id)
+        public ActionResult OpenAuction(int? id)
         {
             var auction = db.Auctions.Find(id);
             auction.opening = DateTime.Now; //update opening
@@ -50,14 +50,14 @@ namespace IEP___projekat_AS.Controllers
         public ActionResult Index([Bind(Include = "name,typeOfSearch,minPrice,maxPrice,status")] SearchAuctionViewModel sa)
         {
             //search parameters
-            var name         = sa.name;
-            var minPrice     = sa.minPrice;
-            var maxPrice     = sa.maxPrice;
-            var status       = sa.status;
+            var name = sa.name;
+            var minPrice = sa.minPrice;
+            var maxPrice = sa.maxPrice;
+            var status = sa.status;
             var typeOfSearch = sa.typeOfSearch;
 
             var query = db.Auctions.Where(s => s.name.Contains(name)); //search for auctions with that name
-            var aList     = query.ToList();//.FirstOrDefault<Auction>();
+            var aList = query.ToList();//.FirstOrDefault<Auction>();
 
 
             if (aList == null)
@@ -67,7 +67,7 @@ namespace IEP___projekat_AS.Controllers
 
             var savcm = new SearchAuctionViewContainerModel();
             savcm.searchAuctionViewModel = new SearchAuctionViewModel();
-            savcm.auctionList = aList.ToPagedList(1,3);
+            savcm.auctionList = aList.ToPagedList(1, 3);
             return View(savcm);
 
             //return View(db.Auctions.ToList());
@@ -91,71 +91,54 @@ namespace IEP___projekat_AS.Controllers
             var typeOfSearch = sa.typeOfSearch;
 
             //SVE AUCKIJE
-            savcm.auctionList = db.Auctions.OrderBy(a => a.Id).ToPagedList(pageNumber, pageSize);
+            IQueryable<Auction> auctionsList = db.Auctions;
+            //savcm.auctionList = db.Auctions.OrderBy(a => a.Id).ToPagedList(pageNumber, pageSize);
 
             //Filter minimal price
             if (minPrice != Decimal.Zero)
-                savcm.auctionList = savcm.auctionList.Where(a => a.price >= minPrice)
-                    .OrderBy(a => a.Id)
-                    .ToPagedList(pageNumber, pageSize);
+                auctionsList = auctionsList.Where(a => a.price >= minPrice);
             //Filter maximal price
             if (maxPrice != Decimal.Zero)
-                savcm.auctionList = savcm.auctionList.Where(a => a.price <= maxPrice)
-                    .OrderBy(a => a.Id)
-                    .ToPagedList(pageNumber, pageSize);
+                auctionsList = auctionsList.Where(a => a.price <= maxPrice);
             //Filter status of auction
             if (!String.IsNullOrEmpty(status))
-                savcm.auctionList = savcm.auctionList.Where(a => a.status.Equals(status))
-                    .OrderBy(a => a.Id)
-                    .ToPagedList(pageNumber, pageSize);
+                auctionsList = auctionsList.Where(a => a.status.Equals(status));
 
-            if (String.IsNullOrEmpty(name) && String.IsNullOrEmpty(status) && String.IsNullOrEmpty(typeOfSearch)
-                && minPrice == Decimal.Zero && maxPrice == Decimal.Zero)
+            //EXACT ALL po default-u kada nema typeOfSearch
+            if (String.IsNullOrEmpty(typeOfSearch) && !String.IsNullOrEmpty(name))
             {
-                //NEMA PARAMETARA POSALJI SVE POSTOJECE AUKCIJE
+                //EXACT ALL
+                auctionsList = auctionsList.Where(a => a.name.Equals(name));
             }
-            else
+            else if (!String.IsNullOrEmpty(name)) //NEKI OD OSTALIH VRSTA PRETRAGA
             {
-                //EXACT ALL po default-u kada nema typeOfSearch
-                if (String.IsNullOrEmpty(typeOfSearch) && !String.IsNullOrEmpty(name))
-                {
-                    //EXACT ALL
-                    savcm.auctionList = savcm.auctionList.Where(a => a.name.Equals(name))
-                        .OrderBy(a => a.Id)
-                        .ToPagedList(pageNumber, pageSize);
-                }
-                else if (!String.IsNullOrEmpty(name)) //NEKI OD OSTALIH VRSTA PRETRAGA
-                {
-                    string[] keywords = name.Split(null); //pripremi kljucne reci
-                    var predicate = PredicateBuilder.False<Auction>();
+                string[] keywords = name.Split(null); //pripremi kljucne reci
+                var predicate = PredicateBuilder.False<Auction>();
 
-                    switch (typeOfSearch)
-                    {
-                        case "EK": //Exact Keywords -> where Name like 'first' AND Name like 'second'...
-                            foreach (string keyword in keywords)
-                            {
-                                string temp = keyword;
-                                predicate = predicate.And(a => a.name.Equals(temp));
-                            }
-                            break;
-                        case "PA": //Partial All -> where Name like 'Go He'
-                            predicate = predicate.Or(a => a.name.Contains(name));
-                            break;
-                        case "PK": //Partial Keywords -> where Name like 'first' OR Name like 'second'...
-                            foreach (string keyword in keywords)
-                            {
-                                string temp = keyword;
-                                predicate = predicate.Or(a => a.name.Contains(temp));
-                            }
-                            break;
-                    }
-                    //isto za sva 3 slucaja
-                    savcm.auctionList = db.Auctions.Where(predicate)
-                        .OrderBy(a => a.Id)
-                        .ToPagedList(pageNumber, pageSize);
+                switch (typeOfSearch)
+                {
+                    case "EK": //Exact Keywords -> where Name like 'first' AND Name like 'second'...
+                        foreach (string keyword in keywords)
+                        {
+                            string temp = keyword;
+                            predicate = predicate.And(a => a.name.Equals(temp));
+                        }
+                        break;
+                    case "PA": //Partial All -> where Name like 'Go He'
+                        auctionsList = auctionsList.Where(a => a.name.Contains(name));
+                        break;
+                    case "PK": //Partial Keywords -> where Name like 'first' OR Name like 'second'...
+                        foreach (string keyword in keywords)
+                        {
+                            string temp = keyword;
+                            predicate = predicate.Or(a => a.name.Contains(temp));
+                        }
+                        break;
                 }
-
+                //isto za sva 3 slucaja
+                auctionsList = auctionsList.Where(predicate);
             }
+            savcm.auctionList = auctionsList.OrderByDescending(o => o.closing).ToPagedList(pageNumber, pageSize);
             return View(savcm);
         }
 
@@ -180,7 +163,7 @@ namespace IEP___projekat_AS.Controllers
             }
 
             db.SaveChanges();
-            return RedirectToAction("Index","Manage");
+            return RedirectToAction("Index", "Manage");
         }
 
         //GET: Auctions/AuctionsWon
@@ -226,7 +209,8 @@ namespace IEP___projekat_AS.Controllers
             {
                 auction.winner_FullName = "";
                 auction.start_offer = auction.price; //na pocetku je ista cena
-                /*auction.closing = auction.opening = */auction.creation = DateTime.Now; //moram odmah inicijalizovati opening i closing...
+                                                     /*auction.closing = auction.opening = */
+                auction.creation = DateTime.Now; //moram odmah inicijalizovati opening i closing...
                 db.Auctions.Add(auction);
                 bool saveFailed;
                 do

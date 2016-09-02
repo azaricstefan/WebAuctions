@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using IEP___projekat_AS.Models;
 using Hangfire;
+using System.Data.Entity.Infrastructure;
 
 namespace IEP___projekat_AS.Controllers
 {
@@ -52,13 +53,39 @@ namespace IEP___projekat_AS.Controllers
             if (a == null) return;
             if (DateTime.Now > a.closing && a.status != "EXPIRED")
             {
+                var offers = a.Offers;
+                var lastOffer = offers.LastOrDefault();
+                if (lastOffer != null)
+                {
+                    TimeSpan tlo = (DateTime)a.closing - lastOffer.time;
+                    if (tlo.Seconds < 10 && tlo.Seconds > 0)
+                    {
+                        //DONT CLOSE 
+                        //a.Offers = null;
+                        //BackgroundJob.Schedule(() => closeAuctionTask(a), new DateTimeOffset((DateTime)a.closing));
+                        return;
+                    }
+                }
+
                 //DODATI ONO SA 10 SEKUNDI!
                 if (a.price > 1)
                     a.status = "SOLD";
                 else a.status = "EXPIRED";
                 //winnerID?
             }
-            db.SaveChanges();
+            bool saveFailed;
+            do
+            {
+                saveFailed = false;
+                try { db.SaveChanges(); }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    saveFailed = true;
+                    // Update original values from the database 
+                    var entry = ex.Entries.Single();
+                    entry.OriginalValues.SetValues(entry.GetDatabaseValues());
+                }
+            } while (saveFailed);
         }
 
         public ActionResult AllTokenOrders()

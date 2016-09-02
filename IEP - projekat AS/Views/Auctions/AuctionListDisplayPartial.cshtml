@@ -57,7 +57,7 @@
                         <div class="text-center">
                             <label id="@item.Id-vreme">@stringTime</label> <br />
                             <div class="row">
-                                <div id="@item.Id-price">@Html.DisplayFor(modelItem => item.price)</div><br />
+                                <div id="@item.Id-price" style="width: 50px; margin: auto;">@Html.DisplayFor(modelItem => item.price)</div><br />
                             </div>
                             <label id="@item.Id-winner">@item.winner_FullName</label>
                             <div class="row">
@@ -94,17 +94,23 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
             //POZIVA SE ZA UPDATE NAKON KLIKA
             //UPDATE O BIDOVANJU
 
-            //if (name == "EXPIRED") expired(message);
-            //if (name == "SOLD") sold(message);
-            //if (name == "OPEN") openAuction(message);
-            //if (name == "BID") bidShow(message);
 
-            //$('#' + message + '-auctionStatus').text('OPEN');
-            //$('#' + message + '-vreme').text('01:23:45');
             var price = $('#' + message + '-price').text();
             var priceInt = parseInt(price, 10) + 1;
-            $('#' + message + '-price').text(priceInt);
+            $('#' + message + '-price').text(priceInt).css("background-color","green");
             $('#' + message + '-winner').text(name);
+            
+            var oldBid = price;
+            var curTime = $('#' + message + '-vreme').text();
+
+            var s = curTime.slice(6, 8);
+            var m = curTime.slice(3, 5);
+            var h = curTime.slice(0, 2);
+            if (h == 0 && m == 0 && s < 10)
+            {
+                curTime = addTime(curTime, 10);
+                $('#' + message + '-vreme').text(curTime);
+            }
         };
 
     });
@@ -140,7 +146,7 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
                     $('#' + bidId[0] + '-auctionStatus').text('Status: SOLD').css("color", "red");
                 return;
             }
-            if (hours == "00" && minutes == "00" && seconds == "30") {
+            if (hours == "00" && minutes == "00" && seconds == "10") {
                 $(this).css("color", "red");
             }
 
@@ -168,6 +174,35 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
             else $('#' + bidId[0] + '-bid').addClass("disabled");
         })
     }, 1000);
+
+
+    function addTime(timeLabel, extendtime) {
+
+        if (extendtime == "0")
+            return;
+
+        var seconds = timeLabel.slice(6, 8);
+        var minutes = timeLabel.slice(3, 5);
+        var hours = timeLabel.slice(0, 2);
+
+        var d = new Date(((parseInt(hours, 10) - 1) * 3600 + parseInt(minutes, 10) * 60 + parseInt(seconds, 10) + parseInt(extendtime, 10)) * 1000);
+
+        hours = d.getHours();
+        minutes = d.getMinutes();
+        seconds = d.getSeconds();
+
+        if (hours < 10)
+            hours = "0" + hours;
+
+        if (minutes < 10)
+            minutes = "0" + minutes;
+
+        if (seconds < 10)
+            seconds = "0" + seconds;
+
+        return timeLabel = hours + ":" + minutes + ":" + 10;
+
+    }
 
     $.connection.hub.start().done(function () {
 
