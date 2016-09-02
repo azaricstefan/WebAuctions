@@ -222,10 +222,11 @@ namespace IEP___projekat_AS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public ActionResult Edit([Bind(Include = "Id,winner_Id,name,length,price,creation,opening,closing,details,img,status,start_offer")] Auction auction)
+        public ActionResult Edit([Bind(Include = "Id,winner_Id,name,length,price,details,img,status,start_offer")] Auction auction)
         {
             if (ModelState.IsValid && auction.status.Equals("READY"))
             {
+                auction.creation = DateTime.Now;
                 db.Entry(auction).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
