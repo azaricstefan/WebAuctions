@@ -37,7 +37,7 @@ namespace IEP___projekat_AS.Hubs
                     return; //nema dovoljno kredita
             }
             else if (user.Credit < auctionToBid.price + 1)
-                 return;
+                return;
             // 1. Dodaj ponudu
             // 2. Povecaj trenutnu cenu
             // 3. Vrati kredit prethodnom user-u
