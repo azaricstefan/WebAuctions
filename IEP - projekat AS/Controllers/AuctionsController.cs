@@ -160,7 +160,7 @@ namespace IEP___projekat_AS.Controllers
         }
 
         //GET: Auctions/GetCentiliDetails
-        public ActionResult GetCentiliDetails(string packageType, string clientId, int amount,/*, int orderId,*/
+        public ActionResult GetCentiliDetails(int package, string clientId, int amount,/*, int orderId,*/
                                                 decimal enduserprice, string status, string transactionId)
         {
             var order = db.Orders.Where(i => i.status.Equals("WAITING")).OrderByDescending(m => m.Id).FirstOrDefault();
@@ -178,17 +178,19 @@ namespace IEP___projekat_AS.Controllers
             }
             //order.transactionId = transactionId;
 
-            var user = db.Users.Where(u => u.Id.Equals(clientId)).First();
+            var user = db.Users.Where(u => u.Id.Equals(clientId)).FirstOrDefault();
+            if (user == null)
+                return RedirectToAction("Index", "Manage");
 
-            switch (packageType)
+            switch (package)
             {
-                case "STANDARD":
+                case 0:
                     user.Credit += 1;
                     break;
-                case "GOLD":
+                case 1:
                     user.Credit += 5;
                     break;
-                case "PLATINUM":
+                case 2:
                     user.Credit += 10;
                     break;
                 default:
