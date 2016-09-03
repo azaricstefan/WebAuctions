@@ -119,11 +119,11 @@ namespace IEP___projekat_AS.Controllers
             {
                 case 1:
                     order.package = "STANDARD";
-                    order.price = 10;
+                    order.price = 50;
                     break;
                 case 5:
                     order.package = "GOLD";
-                    order.price = 50;
+                    order.price = 80;
                     break;
                 case 10:
                     order.package = "PLATINUM";
@@ -147,7 +147,7 @@ namespace IEP___projekat_AS.Controllers
                 p = 1;
             else p = 2;
 
-            var ret = "&clientId=" + userId + "&phone=" + btvm.PhoneNumber + "&package=" + p; /*+ "&orderId=" + parOrderId;*/
+            var ret = "&clientId=" + userId + "&phone=" + btvm.PhoneNumber + "&package=" + p + "&packagelock=true"; /*+ "&orderId=" + parOrderId;*/
             return Redirect(basecentili + ret);
         }
 

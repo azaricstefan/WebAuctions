@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using IEP___projekat_AS.Models;
 using PagedList;
 using System.Data.Entity.Infrastructure;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace IEP___projekat_AS.Controllers
 {
@@ -160,14 +162,14 @@ namespace IEP___projekat_AS.Controllers
         }
 
         //GET: Auctions/GetCentiliDetails
-        public ActionResult GetCentiliDetails(int package, string clientId, int amount,/*, int orderId,*/
-                                                decimal enduserprice, string status, string transactionId)
+        public ActionResult GetCentiliDetails(string clientId, int? amount,/*, int orderId,*/
+                                                string status)/*, string transactionId)*/
         {
             var order = db.Orders.Where(i => i.status.Equals("WAITING")).OrderByDescending(m => m.Id).FirstOrDefault();
             switch (status)
             {
-                case "succes":
-                    order.status = "REALIZED"; //SUCCES,CANCELED,FAILED su od centili
+                case "success":
+                    order.status = "REALIZED"; //SUCCESS,CANCELED,FAILED su od centili
                     break;
                 case "canceled":
                     order.status = "CANCELED";
@@ -176,27 +178,30 @@ namespace IEP___projekat_AS.Controllers
                     order.status = "WAITING";
                     break;
             }
-            //order.transactionId = transactionId;
+            //order.transactionId = transactionId; //optional -> ako dodam to polje u tabelu
 
-            var user = db.Users.Where(u => u.Id.Equals(clientId)).FirstOrDefault();
-            if (user == null)
-                return RedirectToAction("Index", "Manage");
+            //var user = db.Users.Where(u => u.Id.Equals(clientId)).FirstOrDefault();
+            ApplicationUserManager um = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
+            var user = um.FindById(clientId);
+            //if (user == null)
+            //    return RedirectToAction("Index", "Manage");
 
-            switch (package)
+            switch ((int)order.price)
             {
-                case 0:
+                case 50: //STANDARD
                     user.Credit += 1;
                     break;
-                case 1:
+                case 80: //GOLD
                     user.Credit += 5;
                     break;
-                case 2:
+                case 100: //PLATINUM
                     user.Credit += 10;
                     break;
                 default:
                     break;
             }
 
+            //db.SaveChanges();
             saveContextManual();
             return RedirectToAction("Index", "Manage");
         }
