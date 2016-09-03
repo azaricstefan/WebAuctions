@@ -142,10 +142,43 @@ namespace IEP___projekat_AS.Controllers
             return View(savcm);
         }
 
-        //GET: Auctions/GetCentiliDetails
-        public ActionResult GetCentiliDetails(string packageType, string clientId)
+        private void saveContextManual()
         {
-            var user = db.Users.Where(u => u.Id.Equals(clientId)).FirstOrDefault();
+            bool saveFailed;
+            do
+            {
+                saveFailed = false;
+                try { db.SaveChanges(); }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    saveFailed = true;
+                    // Update original values from the database 
+                    var entry = ex.Entries.Single();
+                    entry.OriginalValues.SetValues(entry.GetDatabaseValues());
+                }
+            } while (saveFailed);
+        }
+
+        //GET: Auctions/GetCentiliDetails
+        public ActionResult GetCentiliDetails(string packageType, string clientId, int amount,/*, int orderId,*/
+                                                decimal enduserprice, string status, string transactionId)
+        {
+            var order = db.Orders.Where(i => i.status.Equals("WAITING")).OrderByDescending(m => m.Id).FirstOrDefault();
+            switch (status)
+            {
+                case "succes":
+                    order.status = "REALIZED"; //SUCCES,CANCELED,FAILED su od centili
+                    break;
+                case "canceled":
+                    order.status = "CANCELED";
+                    break;
+                case "failed":
+                    order.status = "WAITING";
+                    break;
+            }
+            //order.transactionId = transactionId;
+
+            var user = db.Users.Where(u => u.Id.Equals(clientId)).First();
 
             switch (packageType)
             {
@@ -162,7 +195,7 @@ namespace IEP___projekat_AS.Controllers
                     break;
             }
 
-            db.SaveChanges();
+            saveContextManual();
             return RedirectToAction("Index", "Manage");
         }
 

@@ -109,12 +109,11 @@ namespace IEP___projekat_AS.Controllers
             }
             var value = Decimal.Parse(btvm.PackageType);
 
-            user.Credit += value;
+            //user.Credit += value; //ovo se radi u linku potvrde 
             db.SaveChanges();
-            //SYNC WITH CENTILI;; TODO
             var orders = db.Orders.Where(o => o.user_Id == userId).ToList();
             Order order = new Order();
-            order.date = DateTime.Now;
+            var tmpDate = order.date = DateTime.Now;
             order.number_of_tokens = (int)value;
             switch ((int)value)
             {
@@ -135,7 +134,21 @@ namespace IEP___projekat_AS.Controllers
             order.user_Id = userId;
             db.Orders.Add(order);
             db.SaveChanges();
-            return RedirectToAction("AllTokenOrders", orders);
+
+            //var ord = db.Orders.Where(i => i.date == tmpDate).FirstOrDefault();
+            //var parorderid = ord.Id;
+
+            //return RedirectToAction("AllTokenOrders", orders);
+            var basecentili = "http://stage.centili.com/widget/WidgetModule?api=870d5e86ef71dfa2c2570699f9fbf172";
+            int p;
+            if (btvm.PackageType == "1")
+                p = 0;
+            else if (btvm.PackageType == "5")
+                p = 1;
+            else p = 2;
+
+            var ret = "&clientId=" + userId + "&phone=" + btvm.PhoneNumber + "&package=" + p; /*+ "&orderId=" + parOrderId;*/
+            return Redirect(basecentili + ret);
         }
 
         //public ActionResult BuyTokens()/*String packageType, String phoneNumber)*/
