@@ -17,10 +17,13 @@ namespace IEP___projekat_AS.Controllers
     public class AuctionsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
 
         public ActionResult OpenAuction(int? id)
         {
+            logger.Info("Opening auction number: " + id);
+
             var auction = db.Auctions.Find(id);
             auction.opening = DateTime.Now; //update opening
             bool saveFailed;

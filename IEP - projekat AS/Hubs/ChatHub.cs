@@ -14,6 +14,7 @@ namespace IEP___projekat_AS.Hubs
     public class ChatHub : Hub
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public void Send(string name, string auctionID)
         {
@@ -71,6 +72,7 @@ namespace IEP___projekat_AS.Hubs
 
             saveContextManual();
 
+            logger.Info("Client BID. FullName:" + user.Name + " " + user.Surname + " auctionID: " + auctionID);
             /// Any connection or hub wire up and configuration should go here
             Clients.All.addNewMessageToPage(user.Name + " " + user.Surname, auctionID); //pozovi addNewMessage
         }
