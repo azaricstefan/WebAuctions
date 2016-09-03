@@ -1,0 +1,71 @@
+INFO  2016-09-03 08:33:00,519   872ms SqlServerStorage       CallSite.Target    - Start installing Hangfire SQL objects...
+INFO  2016-09-03 08:33:00,575   929ms SqlServerStorage       CallSite.Target    - Hangfire SQL objects installed.
+INFO  2016-09-03 08:33:00,586   940ms BackgroundJobServer    CallSite.Target    - Starting Hangfire Server
+INFO  2016-09-03 08:33:00,588   942ms BackgroundJobServer    CallSite.Target    - Using job storage: 'SQL Server: DESKTOP-ZVER@iep'
+INFO  2016-09-03 08:33:00,588   942ms BackgroundJobServer    CallSite.Target    - Using the following options for SQL Server job storage:
+INFO  2016-09-03 08:33:00,588   942ms BackgroundJobServer    CallSite.Target    -     Queue poll interval: 00:00:15.
+INFO  2016-09-03 08:33:00,588   942ms BackgroundJobServer    CallSite.Target    - Using the following options for Hangfire Server:
+INFO  2016-09-03 08:33:00,588   942ms BackgroundJobServer    CallSite.Target    -     Worker count: 40
+INFO  2016-09-03 08:33:00,589   943ms BackgroundJobServer    CallSite.Target    -     Listening queues: 'default'
+INFO  2016-09-03 08:33:00,589   943ms BackgroundJobServer    CallSite.Target    -     Shutdown timeout: 00:00:15
+INFO  2016-09-03 08:33:00,589   943ms BackgroundJobServer    CallSite.Target    -     Schedule polling interval: 00:00:15
+DEBUG 2016-09-03 08:33:00,598   952ms groundProcessingServer CallSite.Target    - Background process 'BackgroundProcessingServer' started.
+DEBUG 2016-09-03 08:33:00,715  1069ms ServerHeartbeat        CallSite.Target    - Background process 'ServerHeartbeat' started.
+DEBUG 2016-09-03 08:33:00,725  1078ms ServerWatchdog         CallSite.Target    - Background process 'ServerWatchdog' started.
+DEBUG 2016-09-03 08:33:00,733  1086ms ExpirationManager      CallSite.Target    - Background process 'Hangfire.SqlServer.ExpirationManager' started.
+INFO  2016-09-03 08:33:00,736  1089ms ServerWatchdog         CallSite.Target    - 1 servers were removed due to timeout
+DEBUG 2016-09-03 08:33:00,736  1089ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'AggregatedCounter' table...
+DEBUG 2016-09-03 08:33:00,741  1094ms CountersAggregator     CallSite.Target    - Background process 'Hangfire.SqlServer.CountersAggregator' started.
+DEBUG 2016-09-03 08:33:00,744  1097ms CountersAggregator     CallSite.Target    - Aggregating records in 'Counter' table...
+DEBUG 2016-09-03 08:33:00,747  1100ms Worker                 CallSite.Target    - Background process 'Worker #f829f34f' started.
+DEBUG 2016-09-03 08:33:00,753  1106ms Worker                 CallSite.Target    - Background process 'Worker #6ffc2618' started.
+DEBUG 2016-09-03 08:33:00,776  1130ms CountersAggregator     CallSite.Target    - Records from the 'Counter' table aggregated.
+DEBUG 2016-09-03 08:33:00,780  1134ms Worker                 CallSite.Target    - Background process 'Worker #20756cbf' started.
+DEBUG 2016-09-03 08:33:00,845  1199ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'AggregatedCounter' table.
+DEBUG 2016-09-03 08:33:00,846  1200ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'Job' table...
+DEBUG 2016-09-03 08:33:00,846  1200ms Worker                 CallSite.Target    - Background process 'Worker #61278005' started.
+DEBUG 2016-09-03 08:33:00,872  1226ms Worker                 CallSite.Target    - Background process 'Worker #b0da6937' started.
+DEBUG 2016-09-03 08:33:00,941  1295ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'Job' table.
+DEBUG 2016-09-03 08:33:00,941  1295ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'List' table...
+DEBUG 2016-09-03 08:33:00,947  1301ms Worker                 CallSite.Target    - Background process 'Worker #19d14552' started.
+DEBUG 2016-09-03 08:33:00,970  1324ms Worker                 CallSite.Target    - Background process 'Worker #dfd9f789' started.
+DEBUG 2016-09-03 08:33:00,972  1326ms Worker                 CallSite.Target    - Background process 'Worker #b83b79de' started.
+DEBUG 2016-09-03 08:33:01,012  1366ms Worker                 CallSite.Target    - Background process 'Worker #0915cf16' started.
+DEBUG 2016-09-03 08:33:01,013  1366ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'List' table.
+DEBUG 2016-09-03 08:33:01,013  1366ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'Set' table...
+DEBUG 2016-09-03 08:33:01,060  1413ms Worker                 CallSite.Target    - Background process 'Worker #53230b23' started.
+DEBUG 2016-09-03 08:33:01,129  1482ms Worker                 CallSite.Target    - Background process 'Worker #0f711374' started.
+DEBUG 2016-09-03 08:33:01,163  1517ms Worker                 CallSite.Target    - Background process 'Worker #173fd441' started.
+DEBUG 2016-09-03 08:33:01,172  1526ms Worker                 CallSite.Target    - Background process 'Worker #a9383fec' started.
+DEBUG 2016-09-03 08:33:01,222  1576ms Worker                 CallSite.Target    - Background process 'Worker #a4aa1d11' started.
+DEBUG 2016-09-03 08:33:01,247  1601ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'Set' table.
+DEBUG 2016-09-03 08:33:01,247  1601ms ExpirationManager      CallSite.Target    - Removing outdated records from the 'Hash' table...
+DEBUG 2016-09-03 08:33:01,249  1603ms Worker                 CallSite.Target    - Background process 'Worker #2d1582fd' started.
+DEBUG 2016-09-03 08:33:01,335  1689ms Worker                 CallSite.Target    - Background process 'Worker #96b7cb59' started.
+DEBUG 2016-09-03 08:33:01,337  1691ms Worker                 CallSite.Target    - Background process 'Worker #7049cf91' started.
+DEBUG 2016-09-03 08:33:01,377  1730ms Worker                 CallSite.Target    - Background process 'Worker #ee74f43b' started.
+DEBUG 2016-09-03 08:33:01,377  1730ms ExpirationManager      CallSite.Target    - Outdated records removed from the 'Hash' table.
+DEBUG 2016-09-03 08:33:01,390  1743ms Worker                 CallSite.Target    - Background process 'Worker #445d3565' started.
+DEBUG 2016-09-03 08:33:01,393  1746ms Worker                 CallSite.Target    - Background process 'Worker #99ceb383' started.
+DEBUG 2016-09-03 08:33:01,414  1767ms Worker                 CallSite.Target    - Background process 'Worker #56311b4a' started.
+DEBUG 2016-09-03 08:33:01,423  1776ms Worker                 CallSite.Target    - Background process 'Worker #583219e1' started.
+DEBUG 2016-09-03 08:33:01,425  1779ms Worker                 CallSite.Target    - Background process 'Worker #97ce6c3b' started.
+DEBUG 2016-09-03 08:33:01,434  1787ms Worker                 CallSite.Target    - Background process 'Worker #72e0bec4' started.
+DEBUG 2016-09-03 08:33:01,456  1809ms Worker                 CallSite.Target    - Background process 'Worker #52069254' started.
+DEBUG 2016-09-03 08:33:01,486  1839ms Worker                 CallSite.Target    - Background process 'Worker #c8c23c13' started.
+DEBUG 2016-09-03 08:33:01,510  1864ms Worker                 CallSite.Target    - Background process 'Worker #51c695d9' started.
+DEBUG 2016-09-03 08:33:01,538  1892ms Worker                 CallSite.Target    - Background process 'Worker #4077fb06' started.
+DEBUG 2016-09-03 08:33:01,542  1896ms Worker                 CallSite.Target    - Background process 'Worker #eeb94cbf' started.
+DEBUG 2016-09-03 08:33:01,556  1910ms Worker                 CallSite.Target    - Background process 'Worker #7244de23' started.
+DEBUG 2016-09-03 08:33:01,587  1941ms Worker                 CallSite.Target    - Background process 'Worker #c7659fed' started.
+DEBUG 2016-09-03 08:33:01,615  1969ms Worker                 CallSite.Target    - Background process 'Worker #232aabc9' started.
+DEBUG 2016-09-03 08:33:01,650  2004ms Worker                 CallSite.Target    - Background process 'Worker #670ba9f3' started.
+DEBUG 2016-09-03 08:33:01,673  2027ms Worker                 CallSite.Target    - Background process 'Worker #8580e066' started.
+DEBUG 2016-09-03 08:33:01,675  2029ms Worker                 CallSite.Target    - Background process 'Worker #6b19c055' started.
+DEBUG 2016-09-03 08:33:01,731  2085ms Worker                 CallSite.Target    - Background process 'Worker #1fa7915c' started.
+DEBUG 2016-09-03 08:33:01,760  2113ms Worker                 CallSite.Target    - Background process 'Worker #a8aefa75' started.
+DEBUG 2016-09-03 08:33:01,770  2123ms Worker                 CallSite.Target    - Background process 'Worker #2ab0722e' started.
+DEBUG 2016-09-03 08:33:01,774  2127ms Worker                 CallSite.Target    - Background process 'Worker #6b5cf002' started.
+DEBUG 2016-09-03 08:33:01,801  2154ms Worker                 CallSite.Target    - Background process 'Worker #872fb1d7' started.
+DEBUG 2016-09-03 08:33:01,833  2186ms DelayedJobScheduler    CallSite.Target    - Background process 'DelayedJobScheduler' started.
+DEBUG 2016-09-03 08:33:01,835  2188ms RecurringJobScheduler  CallSite.Target    - Background process 'RecurringJobScheduler' started.

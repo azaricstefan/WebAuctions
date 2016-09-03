@@ -51,7 +51,8 @@ namespace IEP___projekat_AS.Hubs
             offer.Auction = auctionToBid;
             offer.time = DateTime.Now;
             offer.user_Id = user.Id; offer.user_Fullname = user.Name + " " + user.Surname;
-            offer.value = auctionToBid.price++; //2
+            auctionToBid.price++;
+            offer.value = auctionToBid.price; //2
 
             //3
             if (!String.IsNullOrEmpty(auctionToBid.winner_Id))
@@ -59,7 +60,7 @@ namespace IEP___projekat_AS.Hubs
                 giveBackMoneyToUser(auctionToBid.winner_Id, auctionToBid.price);
             }
             //4
-            int costOfOffer = auctionToBid.price + 1;
+            int costOfOffer = auctionToBid.price;
             user.Credit -= costOfOffer;
             auctionToBid.winner_Id = user.Id;
             auctionToBid.winner_FullName = user.Name + " " + user.Surname;
